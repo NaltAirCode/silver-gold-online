@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Novo Endereço | Silver&Gold</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@200;300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root { --ouro: #D4AF37; --preto: #050505; --cinza-escuro: #111; }
+        body { margin: 0; font-family: 'Montserrat', sans-serif; background-color: var(--preto); color: white; }
+        
+        nav { padding: 25px 5%; border-bottom: 1px solid rgba(212, 175, 55, 0.2); display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-family: 'Cinzel', serif; font-size: 1.8rem; color: var(--ouro); text-decoration: none; letter-spacing: 5px; font-weight: 700; }
+        .voltar { color: #888; text-decoration: none; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; }
+        .voltar:hover { color: var(--ouro); }
+
+        .auth-container { 
+            max-width: 500px; 
+            margin: 40px auto; 
+            padding: 40px; 
+            background: #0a0a0a; 
+            border: 1px solid rgba(212, 175, 55, 0.2); 
+            border-radius: 8px; 
+        }
+
+        .auth-header { text-align: center; margin-bottom: 30px; }
+        .auth-header h2 { font-family: 'Cinzel', serif; color: var(--ouro); letter-spacing: 3px; }
+
+        .auth-form p { margin-bottom: 15px; text-align: left; }
+        .auth-form label { display: block; color: var(--ouro); font-size: 0.7rem; text-transform: uppercase; margin-bottom: 5px; }
+        
+        /* Estilo para campos readonly (preenchidos pelo ViaCEP) */
+        input[readonly] { background-color: #050505 !important; color: #777; border-color: #222; cursor: not-allowed; }
+
+        .auth-form input { 
+            width: 100%; 
+            box-sizing: border-box; 
+            padding: 12px; 
+            background: #111; 
+            border: 1px solid #333; 
+            color: white; 
+            border-radius: 4px; 
+        }
+        
+        .btn-auth { 
+            width: 100%; 
+            padding: 15px; 
+            background: transparent; 
+            border: 1px solid var(--ouro); 
+            color: var(--ouro); 
+            font-weight: 600; 
+            text-transform: uppercase; 
+            cursor: pointer; 
+            transition: 0.4s; 
+            margin-top: 20px; 
+        }
+        .btn-auth:hover { background: var(--ouro); color: black; }
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="{% url 'vitrine' %}" class="logo">S&G</a>
+    <a href="{% url 'meus_enderecos' %}" class="voltar">← Meus Endereços</a>
+</nav>
+
+<div class="auth-container">
+    <div class="auth-header">
+        <h2>NOVO ENDEREÇO</h2>
+        <p style="font-size: 0.8rem; color: #666;">Digite o CEP para preencher o endereço automaticamente.</p>
+    </div>
+
+    <form method="post" class="auth-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn-auth">Salvar Endereço</button>
+    </form>
+</div>
+
+<script>
+    function limpa_formulário_cep() {
+        document.getElementById('id_logradouro').value=("");
+        document.getElementById('id_bairro').value=("");
+        document.getElementById('id_cidade').value=("");
+        document.getElementById('id_estado').value=("");
+    }
+
+    function meu_callback(conteudo) {
+        if (!("erro" in conteudo)) {
+            // Atualiza os campos com os valores da API
+            document.getElementById('id_logradouro').value=(conteudo.logradouro);
+            document.getElementById('id_bairro').value=(conteudo.bairro);
+            document.getElementById('id_cidade').value=(conteudo.localidade);
+            document.getElementById('id_estado').value=(conteudo.uf);
+            // Coloca o foco no campo Número para o usuário continuar
+            document.getElementById('id_numero').focus();
+        } else {
+            limpa_formulário_cep();
+            alert("CEP não encontrado.");
+        }
+    }
+        
+    function pesquisacep(valor) {
+        // Nova variável "cep" somente com dígitos.
+        var cep = valor.replace(/\D/g, '');
+
+        if (cep != "") {
+            // Expressão regular para validar o CEP.
+            var validacep = /^[0-9]{8}$/;
+
+            if(validacep.test(cep)) {
+                // Preenche os campos com "..." enquanto consulta webservice.
+                document.getElementById('id_logradouro').value="...";
+                document.getElementById('id_bairro').value="...";
+                document.getElementById('id_cidade').value="...";
+                document.getElementById('id_estado').value="...";
+
+                // Cria um elemento javascript.
+                var script = document.createElement('script');
+
+                // Sincroniza com o callback.
+                script.src = 'https://viacep.com.br/ws/'+ cep + '/json/?callback=meu_callback';
+
+                // Insere script no documento e carrega o conteúdo.
+                document.body.appendChild(script);
+
+            } else {
+                limpa_formulário_cep();
+                alert("Formato de CEP inválido.");
+            }
+        } else {
+            limpa_formulário_cep();
+        }
+    };
+
+    // Máscara visual para o campo CEP enquanto digita
+    document.getElementById('id_cep').addEventListener('input', function (e) {
+        let x = e.target.value.replace(/\D/g, '').match(/(\d{0,5})(\d{0,3})/);
+        e.target.value = !x[2] ? x[1] : x[1] + '-' + x[2];
+    });
+</script>
+
+</body>
+</html>

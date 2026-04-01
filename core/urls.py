@@ -18,64 +18,54 @@ from django.contrib import admin
 from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
-from vendas.views import vitrine, lista_produtos, categoria_produtos, signup, negociar_whatsapp, sair_do_sistema, erro_403_view, erro_404_view, pagina_secreta, ativar_conta, logout_inatividade
-# 1. IMPORTANTE: Importar as views de autenticação do Django
 from django.contrib.auth import views as auth_views 
 
-# 2. Atualize o import para incluir as novas funções: signup e negociar_whatsapp
-from vendas.views import vitrine, lista_produtos, categoria_produtos, signup, negociar_whatsapp
-
+# IMPORTANTE: Consolidamos todos os imports da sua views.py aqui
+from vendas.views import (
+    vitrine, lista_produtos, categoria_produtos, signup, 
+    negociar_whatsapp, sair_do_sistema, erro_403_view, 
+    erro_404_view, pagina_secreta, ativar_conta, logout_inatividade,
+    meus_enderecos, adicionar_endereco # <-- NOVAS VIEWS ADICIONADAS
+)
 
 urlpatterns = [
-
+    # --- SEGURANÇA E SESSÃO ---
     path('sair-inatividade/', logout_inatividade, name='logout_inatividade'),
+    path('gestao-sg-2026/', admin.site.urls), 
+    path('admin/', pagina_secreta),
+    path('teste-erro/', erro_403_view, name='teste_erro'),
+    path('area-secreta/', pagina_secreta, name='area_secreta'),
 
     # --- RECUPERAÇÃO DE SENHA ---
     path('recuperar-senha/', auth_views.PasswordResetView.as_view(
-    template_name='vendas/password_reset.html',
-    html_email_template_name='vendas/password_reset_email.html'
-), name='password_reset'),
+        template_name='vendas/password_reset.html',
+        html_email_template_name='vendas/password_reset_email.html'
+    ), name='password_reset'),
     path('recuperar-senha/enviado/', auth_views.PasswordResetDoneView.as_view(template_name='vendas/password_reset_done.html'), name='password_reset_done'),
     path('recuperar-senha/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name='vendas/password_reset_confirm.html'), name='password_reset_confirm'),
     path('recuperar-senha/concluido/', auth_views.PasswordResetCompleteView.as_view(template_name='vendas/password_reset_complete.html'), name='password_reset_complete'),
 
-    path('gestao-sg-2026/', admin.site.urls), 
-
-    path('admin/', pagina_secreta),
-    
-    # Rota 1: Landing Page
+    # --- VITRINE E PRODUTOS ---
     path('', vitrine, name='vitrine'), 
-    
-    # Rota 2: Coleção Completa
     path('produtos/', lista_produtos, name='lista_produtos'), 
-    
-    # Rota 3: Categorias
     path('categoria/<str:slug_categoria>/', categoria_produtos, name='categoria'), 
-
-    # --- NOVAS ROTAS DA ETAPA 4 ---
-    
-    # Rota 4: Cadastro de Cliente
-    path('cadastro/', signup, name='signup'),
-    path('ativar/<uidb64>/<token>/', ativar_conta, name='ativar'),
-    
-    # Rota 5: Login (usando a ferramenta pronta do Django)
-    path('login/', auth_views.LoginView.as_view(template_name='vendas/login.html'), name='login'),
-    
-    # Rota 6: Logout (Sair)
-    path('logout/', sair_do_sistema, name='logout'),
-    
-    # Rota 7: Disparar Negociação (WhatsApp)
     path('negociar/<int:produto_id>/', negociar_whatsapp, name='negociar'),
 
-    path('teste-erro/', erro_403_view, name='teste_erro'),
+    # --- CADASTRO E AUTENTICAÇÃO ---
+    path('cadastro/', signup, name='signup'),
+    path('ativar/<uidb64>/<token>/', ativar_conta, name='ativar'),
+    path('login/', auth_views.LoginView.as_view(template_name='vendas/login.html'), name='login'),
+    path('logout/', sair_do_sistema, name='logout'),
 
-    path('area-secreta/', pagina_secreta, name='area_secreta'),    
-    
+    # --- GESTÃO DE ENDEREÇOS (NOVO) ---
+    path('meus-enderecos/', meus_enderecos, name='meus_enderecos'),
+    path('adicionar-endereco/', adicionar_endereco, name='adicionar_endereco'),
 ]
 
-# Configuração para as imagens aparecerem
+# Configuração para as imagens (Mídia)
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
+# Handlers de Erro Personalizados
 handler403 = 'vendas.views.erro_403_view'
 handler404 = 'vendas.views.erro_404_view'
