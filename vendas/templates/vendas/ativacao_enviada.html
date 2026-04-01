@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Verifique seu E-mail | S&G</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        body { background-color: #050505; color: white; font-family: 'Montserrat', sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .box { background: #0a0a0a; border: 1px solid rgba(212, 175, 55, 0.3); padding: 40px; border-radius: 8px; width: 100%; max-width: 450px; text-align: center; }
+        h1 { font-family: 'Cinzel', serif; color: #D4AF37; margin-bottom: 15px; font-size: 1.8rem; }
+        p { color: #888; font-size: 1rem; margin-bottom: 30px; line-height: 1.6; }
+        .destaque { color: white; font-weight: bold; }
+        .btn-ouro { display: inline-block; width: 100%; padding: 12px; background: transparent; border: 1px solid #D4AF37; color: #D4AF37; font-weight: bold; text-transform: uppercase; text-decoration: none; border-radius: 4px; transition: 0.3s; box-sizing: border-box; }
+        .btn-ouro:hover { background: #D4AF37; color: black; }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h1>Falta Pouco...</h1>
+        <p>Para sua segurança, precisamos validar seu acesso. Um link de ativação foi enviado para o seu e-mail.</p>
+        <p style="font-size: 0.85rem; color: #666;">Não encontrou? Verifique sua pasta de <span class="destaque">Spam</span> ou Lixo Eletrônico.</p>
+        <a href="{% url 'vitrine' %}" class="btn-ouro">Voltar para a Vitrine</a>
+    </div>
+</body>
+</html>

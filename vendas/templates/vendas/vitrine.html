@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Silver&Gold Online | Alta Joalheria</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@200;300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        
+        :root { --ouro: #D4AF37; --preto: #050505; --cinza-escuro: #111; --texto: #f4f4f4; }
+        
+        body { margin: 0; font-family: 'Montserrat', sans-serif; background-color: var(--preto); color: var(--texto); }
+
+        /* --- HEADER COM LOGO CENTRALIZADO --- */
+        header { border-bottom: 1px solid rgba(212, 175, 55, 0.1); background: var(--preto); padding: 25px 0; position: sticky; top: 0; z-index: 1000; }
+        .nav-container { display: flex; justify-content: space-around; align-items: center; max-width: 1400px; margin: 0 auto; padding: 0 20px; }
+        .nav-links { display: flex; gap: 25px; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px; }
+        .nav-links a { text-decoration: none; color: var(--texto); opacity: 0.7; transition: 0.3s; }
+        .nav-links a:hover { color: var(--ouro); opacity: 1; }
+        
+        .logo-box { text-align: center; text-decoration: none; }
+        .logo-box span { font-family: 'Cinzel', serif; font-size: 1.8rem; color: var(--ouro); letter-spacing: 6px; font-weight: 700; display: block; }
+        .logo-box small { color: #fff; letter-spacing: 4px; font-size: 0.6rem; text-transform: uppercase; opacity: 0.5; }
+
+        /* --- HERO SECTION --- */
+        .hero { display: flex; align-items: center; justify-content: center; height: 70vh; padding: 0 8%; background: #080808; border-bottom: 1px solid #111; }
+        .hero-content { flex: 1; padding-right: 50px; }
+        .hero-content h1 { font-family: 'Cinzel', serif; font-size: 3.5rem; line-height: 1.1; color: var(--ouro); margin-bottom: 20px; }
+        .hero-content p { font-weight: 200; font-size: 1rem; color: #888; margin-bottom: 35px; letter-spacing: 1px; }
+        .btn-shop { border: 1px solid var(--ouro); color: var(--ouro); padding: 15px 40px; text-decoration: none; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem; transition: 0.4s; }
+        .btn-shop:hover { background: var(--ouro); color: black; }
+        .hero-img { flex: 1.2; height: 100%; background: url('https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?q=80&w=2000') center/cover no-repeat; mask-image: linear-gradient(to left, rgba(0,0,0,1) 70%, rgba(0,0,0,0)); }
+
+        /* --- CATEGORIAS --- */
+        .categories { padding: 60px 5%; display: flex; justify-content: center; gap: 25px; flex-wrap: wrap; }
+        .cat-card { background: var(--cinza-escuro); padding: 25px; border: 1px solid #1a1a1a; width: 160px; text-align: center; transition: 0.4s; }
+        .cat-card:hover { border-color: var(--ouro); transform: translateY(-5px); }
+        .cat-icon { font-size: 1.8rem; color: var(--ouro); margin-bottom: 15px; display: block; }
+        .cat-card h3 { font-family: 'Cinzel', serif; font-size: 0.8rem; margin: 0; letter-spacing: 1px; }
+
+        /* --- VITRINE DE PRODUTOS (DINÂMICA) --- */
+        .vitrine-section { padding: 60px 5%; max-width: 1300px; margin: 0 auto; }
+        .section-title { text-align: center; font-family: 'Cinzel', serif; font-size: 1.8rem; margin-bottom: 50px; letter-spacing: 4px; color: var(--ouro); }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 40px; }
+        
+        .product-card { background: var(--cinza-escuro); border: 1px solid #1a1a1a; transition: 0.5s; overflow: hidden; }
+        .product-card:hover { border-color: var(--ouro); }
+        .product-card img { width: 100%; height: 320px; object-fit: cover; opacity: 0.8; transition: 0.5s; }
+        .product-card:hover img { opacity: 1; transform: scale(1.05); }
+        .product-info { padding: 20px; text-align: center; }
+        .product-info h3 { font-family: 'Cinzel', serif; font-size: 1rem; margin: 0 0 10px 0; color: #fff; }
+        .price { color: var(--ouro); font-weight: 600; font-size: 1.3rem; margin-bottom: 15px; }
+        .btn-pix { background: transparent; border: 1px solid var(--ouro); color: var(--ouro); padding: 10px; width: 100%; cursor: pointer; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 1px; transition: 0.3s; }
+        .btn-pix:hover { background: var(--ouro); color: black; }
+
+        /* --- FOOTER --- */
+        footer { padding: 60px 5%; border-top: 1px solid #111; background: #000; text-align: center; }
+        .social-icons { margin: 20px 0; }
+        .social-icons a { color: #555; margin: 0 15px; font-size: 1.2rem; transition: 0.3s; }
+        .social-icons a:hover { color: var(--ouro); }
+        .copy { font-size: 0.65rem; color: #333; letter-spacing: 2px; text-transform: uppercase; }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="nav-container">
+        <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="#">Ouro 18k</a>
+            <a href="#">Prata 925</a>
+        </div>
+        
+        <a href="/" class="logo-box">
+            <span>S&G</span>
+            <small>Silver & Gold Online</small>
+        </a>
+
+        <div class="nav-links" style="align-items: center;">
+            <a href="#">Coleções</a>
+            
+            {% if user.is_authenticated %}
+                <span style="color: var(--ouro); text-transform: none; font-size: 0.8rem; margin-right: 10px;">
+                    Olá, {{ user.username }}
+                </span>
+                <a href="{% url 'logout' %}" title="Sair do sistema"><i class="fa-solid fa-right-from-bracket"></i></a>
+                
+                {% if user.is_staff %}
+                    <a href="/admin" title="Painel Admin"><i class="fa-solid fa-user-gear"></i></a>
+                {% endif %}
+                
+            {% else %}
+                <a href="{% url 'login' %}"><i class="fa-regular fa-user"></i> Login</a>
+                <a href="{% url 'signup' %}" style="color: var(--ouro); border-bottom: 1px solid var(--ouro); padding-bottom: 2px;">Cadastre-se</a>
+            {% endif %}
+        </div>
+    </div>
+</header>
+
+<section class="hero">
+    <div class="hero-content">
+        <h1>SILVER & GOLD</h1>
+        <p>A Essência da Alta Joalheria</p>
+        <a href="#vitrine" class="btn-shop">Ver Coleção</a>
+    </div>
+    <div class="hero-img"></div>
+</section>
+
+<style>
+    /* Forçando a formatação de luxo para as categorias dinâmicas */
+    .category-grid {
+        display: flex;
+        justify-content: center;
+        gap: 40px;
+        flex-wrap: wrap;
+        margin: 40px 0;
+    }
+    
+    .category-btn {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+        text-decoration: none !important;
+        color: #D4AF37 !important; /* Cor Ouro */
+        transition: all 0.3s ease;
+        padding: 15px;
+    }
+
+    .category-btn i {
+        font-size: 2.8rem;
+        color: #D4AF37 !important;
+    }
+
+    .category-btn span {
+        font-family: 'Cinzel', serif;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        color: #D4AF37 !important;
+    }
+
+    .category-btn:hover {
+        transform: translateY(-8px);
+        filter: brightness(1.3);
+    }
+</style>
+
+<section class="categories-section">
+    <div class="category-grid">
+        {% for cat in categorias %}
+            <a href="{% url 'categoria' cat.slug %}" class="category-btn">
+                <i class="{{ cat.icone }}"></i>
+                <span>{{ cat.nome }}</span>
+            </a>
+        {% empty %}
+            <p style="color: #666; text-align: center; width: 100%;">Nenhuma categoria cadastrada no Admin ainda.</p>
+        {% endfor %}
+    </div>
+</section>
+
+<!--div class="categories">
+    <a href="{% url 'categoria' 'aneis' %}" style="text-decoration:none;" class="cat-card">
+        <i class="fa-solid fa-ring cat-icon"></i>
+        <h3>Anéis</h3>
+    </a>
+    <a href="{% url 'categoria' 'brincos' %}" style="text-decoration:none;" class="cat-card">
+        <i class="fa-solid fa-gem cat-icon"></i>
+        <h3>Brincos</h3>
+    </a>
+    <a href="{% url 'categoria' 'correntes' %}" style="text-decoration:none;" class="cat-card">
+        <i class="fa-solid fa-link cat-icon"></i>
+        <h3>Correntes</h3>
+    </a>
+    <a href="{% url 'categoria' 'pulseiras' %}" style="text-decoration:none;" class="cat-card">
+        <i class="fa-solid fa-hands-holding cat-icon"></i>
+        <h3>Pulseiras</h3>
+    </a>
+    <a href="{% url 'categoria' 'pingentes' %}" style="text-decoration:none;" class="cat-card">
+        <i class="fa-solid fa-leaf cat-icon"></i>
+        <h3>Pingentes</h3>
+    </a>
+</div-->
+
+<style>
+    /* Modo Carrossel VIP */
+    .carousel-oportunidades {
+        display: flex;
+        overflow-x: auto;
+        gap: 30px;
+        padding: 10px 0 30px 0;
+        scroll-snap-type: x mandatory;
+        scrollbar-width: none; /* Esconde barra no Firefox */
+    }
+    .carousel-oportunidades::-webkit-scrollbar {
+        display: none; /* Esconde barra no Chrome/Safari */
+    }
+    
+    /* Borda Elegante e Efeito Flutuante */
+    .card-oportunidade {
+        flex: 0 0 auto;
+        width: 280px;
+        scroll-snap-align: start;
+        border: 1px solid rgba(212, 175, 55, 0.3); /* Borda dourada sutil */
+        border-radius: 6px;
+        background: var(--cinza-escuro, #111);
+        transition: all 0.4s ease;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.6);
+        overflow: hidden;
+    }
+    .card-oportunidade:hover {
+        border-color: var(--ouro, #D4AF37);
+        box-shadow: 0 10px 25px rgba(212, 175, 55, 0.2); /* Brilho dourado no hover */
+        transform: translateY(-8px); /* Levanta a carta */
+    }
+</style>
+
+<style>
+    /* Container do Carrossel com botões */
+    .carousel-container {
+        position: relative;
+        display: flex;
+        align-items: center;
+        group: hover;
+    }
+
+    .carousel-oportunidades {
+        display: flex;
+        overflow-x: auto;
+        gap: 25px;
+        padding: 20px 5px 40px 5px;
+        scroll-snap-type: x mandatory;
+        scrollbar-width: none;
+        scroll-behavior: smooth; /* Faz a rolagem ser suave ao clicar */
+        width: 100%;
+    }
+
+    .carousel-oportunidades::-webkit-scrollbar { display: none; }
+
+    /* Estilo das Setas */
+    .nav-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(0, 0, 0, 0.7);
+        border: 1px solid var(--ouro);
+        color: var(--ouro);
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        cursor: pointer;
+        z-index: 10;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: 0.3s;
+        font-size: 1.2rem;
+    }
+
+    .nav-btn:hover { background: var(--ouro); color: black; }
+    .prev-btn { left: -20px; }
+    .next-btn { right: -20px; }
+
+    /* Ajuste do Card para o Carrossel */
+    .card-oportunidade {
+        flex: 0 0 300px; /* Largura fixa para forçar o carrossel */
+        scroll-snap-align: center;
+        border: 1px solid rgba(212, 175, 55, 0.2);
+        background: #111;
+        transition: 0.4s;
+    }
+</style>
+
+<section class="vitrine-section" id="vitrine">
+    <h2 class="section-title">Oportunidades</h2>
+    
+    <div class="carousel-container">
+        <button class="nav-btn prev-btn" onclick="document.getElementById('slider').scrollBy({left: -325, behavior: 'smooth'})">
+            &#10094;
+        </button>
+        
+        <div class="carousel-oportunidades" id="slider">
+            {% for produto in produtos %}
+            <div class="product-card card-oportunidade">
+                {% if produto.imagem %}
+                    <img src="{{ produto.imagem.url }}" alt="{{ produto.nome }}">
+                {% endif %}
+                
+                <div class="product-info">
+                    <h3>{{ produto.nome }}</h3>
+
+                    {% if user.is_authenticated %}
+                        <div class="price">
+                            {% if produto.preco_promocional %}
+                                <span style="text-decoration: line-through; color: #666; font-size: 0.8rem;">R$ {{ produto.preco_venda_atual }}</span><br>
+                                <span style="color: var(--ouro); font-size: 1.3rem;">R$ {{ produto.preco_promocional }}</span>
+                            {% else %}
+                                R$ {{ produto.preco_venda_atual }}
+                            {% endif %}
+                        </div>
+                        <a href="{% url 'negociar' produto.id %}" target="_blank" class="btn-pix" style="display: block; text-decoration: none; text-align: center; box-sizing: border-box;">
+                            Negociar Agora
+                        </a>
+                        
+                    {% else %}
+                        <div class="price" style="font-size: 0.75rem; color: #777; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 25px;">
+                            Preço sob consulta
+                        </div>
+                        <a href="https://wa.me/5511971020414?text=Olá! Gostaria de saber o valor da peça: {{ produto.nome }}" target="_blank" class="btn-pix" style="background: transparent; border-color: #555; color: #ccc; display: block; text-decoration: none; text-align: center; box-sizing: border-box;">
+                            Consultar Valor
+                        </a>
+                    {% endif %}
+                </div>
+            </div> {% endfor %}
+        </div>
+
+        <button class="nav-btn next-btn" onclick="document.getElementById('slider').scrollBy({left: 325, behavior: 'smooth'})">
+            &#10095;
+        </button>
+    </div>
+</section>
+
+<script>
+    function sideScroll(element, direction, speed, distance, step) {
+        scrollAmount = 0;
+        var slideVar = setInterval(function() {
+            if (direction == 'left') {
+                element.scrollLeft -= step;
+            } else {
+                element.scrollLeft += step;
+            }
+            scrollAmount += step;
+            if (scrollAmount >= distance) {
+                window.clearInterval(slideVar);
+            }
+        }, speed);
+    }
+</script>
+
+<footer>
+    <div class="logo-box">
+        <span>S&G</span>
+    </div>
+    
+    <div class="social-icons">
+        <a href="#"><i class="fa-brands fa-instagram"></i></a>
+        <a href="#"><i class="fa-brands fa-tiktok"></i></a>
+        <a href="#"><i class="fa-brands fa-youtube"></i></a>
+        <a href="#"><i class="fa-brands fa-whatsapp"></i></a>
+    </div>
+
+    {% if user.is_staff %}
+    <div style="margin-bottom: 20px;">
+        <a href="{% url 'admin:index' %}" style="text-decoration: none; color: var(--ouro); font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; border: 1px solid rgba(212, 175, 55, 0.3); padding: 5px 15px; border-radius: 20px; transition: 0.3s;">
+            <i class="fa-solid fa-lock" style="font-size: 0.6rem; margin-right: 5px;"></i> Painel de Gestão
+        </a>
+    </div>
+    {% endif %}
+
+    <p class="copy">© {% now "Y" %} SILVER & GOLD ONLINE - TODOS OS DIREITOS RESERVADOS</p>
+</footer>
+
+<style>
+    .cookie-banner {
+        position: fixed;
+        bottom: 20px;
+        left: 20px;
+        max-width: 400px;
+        background-color: var(--cinza-escuro, #111);
+        border: 1px solid rgba(212, 175, 55, 0.3);
+        padding: 25px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+        z-index: 9999;
+        font-family: 'Montserrat', sans-serif;
+        display: none; /* Escondido por padrão até o JS verificar */
+        border-radius: 4px;
+    }
+    .cookie-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+    }
+    .cookie-header h3 { color: var(--ouro, #D4AF37); margin: 0; font-size: 1.1rem; font-family: 'Cinzel', serif; }
+    .cookie-header span { color: #555; font-size: 0.8rem; letter-spacing: 1px; }
+    .cookie-text { font-size: 0.8rem; color: #ccc; margin-bottom: 15px; line-height: 1.5; }
+    .cookie-box {
+        border: 1px solid #333;
+        padding: 15px;
+        font-size: 0.75rem;
+        color: #999;
+        font-style: italic;
+        margin-bottom: 15px;
+        background: #0a0a0a;
+    }
+    .cookie-links { margin-bottom: 20px; font-size: 0.75rem; font-weight: 600; }
+    .cookie-links a { color: var(--ouro, #D4AF37); text-decoration: none; transition: 0.3s; }
+    .cookie-links a:hover { text-decoration: underline; }
+    .cookie-actions { display: flex; justify-content: space-between; align-items: center; }
+    .btn-options { color: #fff; text-decoration: underline; font-size: 0.75rem; cursor: pointer; background: none; border: none; }
+    .btn-group { display: flex; gap: 10px; }
+    .btn-reject { background: transparent; border: 1px solid #555; color: #ccc; padding: 8px 15px; cursor: pointer; font-weight: 600; font-size: 0.75rem; transition: 0.3s; }
+    .btn-reject:hover { border-color: #fff; color: #fff; }
+    .btn-accept { background: var(--ouro, #D4AF37); border: 1px solid var(--ouro, #D4AF37); color: black; padding: 8px 20px; cursor: pointer; font-weight: 600; font-size: 0.75rem; transition: 0.3s; }
+    .btn-accept:hover { background: #b8962d; }
+</style>
+
+<div class="cookie-banner" id="lgpd-banner">
+    <div class="cookie-header">
+        <h3>Controle sua privacidade</h3>
+        <span>S&G</span>
+    </div>
+    <div class="cookie-text">
+        Nosso site usa cookies para melhorar a navegação.
+    </div>
+    <div class="cookie-box">
+        Usamos cookies para compartilhar dados de análise, publicidade, dados de usuários e personalização de anúncios com o Google.
+    </div>
+    <div class="cookie-links">
+        <a href="#">Política de Privacidade</a> - <a href="#">Política de Cookies</a>
+    </div>
+    <div class="cookie-actions">
+        <button class="btn-options">Minhas opções</button>
+        <div class="btn-group">
+            <button class="btn-reject" onclick="fecharBannerCookies()">Rejeitar</button>
+            <button class="btn-accept" onclick="fecharBannerCookies()">Aceitar</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Verifica se o usuário já aceitou/rejeitou antes
+    document.addEventListener("DOMContentLoaded", function() {
+        if (!localStorage.getItem("cookieConsentimento")) {
+            document.getElementById("lgpd-banner").style.display = "block";
+        }
+    });
+
+    // Função para fechar o banner e salvar a escolha do usuário
+    function fecharBannerCookies() {
+        localStorage.setItem("cookieConsentimento", "sim");
+        document.getElementById("lgpd-banner").style.display = "none";
+    }
+</script>
+
+<script>
+    // Pegamos o tempo que você definiu no settings (1800 segundos)
+    // Para teste, se você mudou para 10, ele vai respeitar os 10.
+    const tempoSessao = 600 * 1000; // Converte para milissegundos
+
+    setTimeout(function() {
+        // Verifica se o usuário está logado (opcional, mas recomendado)
+        {% if user.is_authenticated %}
+            // Redireciona para o logout que já limpa tudo e manda para a home com aviso
+            window.location.href = "{% url 'login' %}?msg=expirado";
+        {% endif %}
+    }, tempoSessao);
+</script>
+
+</body>
+</html>

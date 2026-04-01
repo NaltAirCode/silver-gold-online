@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Login | Silver&Gold</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@200;300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root { --ouro: #D4AF37; --preto: #050505; --cinza-escuro: #111; }
+        body { margin: 0; font-family: 'Montserrat', sans-serif; background-color: var(--preto); color: white; }
+        
+        nav { padding: 25px 5%; border-bottom: 1px solid rgba(212, 175, 55, 0.2); display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-family: 'Cinzel', serif; font-size: 1.8rem; color: var(--ouro); text-decoration: none; letter-spacing: 5px; font-weight: 700; }
+        .voltar { color: #888; text-decoration: none; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; }
+        .voltar:hover { color: var(--ouro); }
+
+        .auth-container { 
+            max-width: 400px; 
+            margin: 80px auto; 
+            padding: 40px; 
+            background: #0a0a0a; 
+            border: 1px solid rgba(212, 175, 55, 0.2); 
+            border-radius: 8px; 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5); 
+        }
+
+        .auth-header { text-align: center; margin-bottom: 30px; }
+        .auth-header h2 { font-family: 'Cinzel', serif; color: var(--ouro); letter-spacing: 3px; margin-bottom: 10px; }
+        .auth-header p { color: #666; font-size: 0.85rem; }
+
+        .auth-form p { margin-bottom: 20px; text-align: left; }
+        .auth-form label { display: block; color: var(--ouro); font-size: 0.75rem; text-transform: uppercase; margin-bottom: 8px; letter-spacing: 1px; }
+        .auth-form input { 
+            width: 100%; 
+            box-sizing: border-box;
+            padding: 12px; 
+            background: #111; 
+            border: 1px solid #333; 
+            color: white; 
+            border-radius: 4px; 
+            transition: 0.3s; 
+        }
+        .auth-form input:focus { border-color: var(--ouro); outline: none; background: #151515; }
+        
+        .btn-auth { 
+            width: 100%; 
+            padding: 15px; 
+            background: transparent; 
+            border: 1px solid var(--ouro); 
+            color: var(--ouro); 
+            font-family: 'Montserrat', sans-serif; 
+            font-weight: 600; 
+            text-transform: uppercase; 
+            letter-spacing: 2px; 
+            cursor: pointer; 
+            transition: 0.4s; 
+            margin-top: 10px; 
+        }
+        .btn-auth:hover { background: var(--ouro); color: black; }
+
+        .auth-footer { text-align: center; margin-top: 25px; font-size: 0.8rem; color: #666; }
+        .auth-footer a { color: var(--ouro); text-decoration: none; }
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="{% url 'vitrine' %}" class="logo">S&G</a>
+    <a href="{% url 'vitrine' %}" class="voltar">← Voltar à Boutique</a>
+</nav>
+
+<div class="auth-container">
+    <div class="auth-header">
+        <h2>LOGIN</h2>
+        <p>Acesse sua conta para visualizar as coleções.</p>
+    </div>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div style="padding: 12px; margin-bottom: 20px; border: 1px solid var(--ouro); background: rgba(212, 175, 55, 0.1); color: var(--ouro); text-align: center; border-radius: 4px; font-size: 0.85rem; font-weight: 600; letter-spacing: 1px;">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    {% if request.GET.next %}
+        <div style="padding: 12px; margin-bottom: 20px; border: 1px solid #ff4c4c; background: rgba(255, 76, 76, 0.1); color: #ff4c4c; text-align: center; border-radius: 4px; font-size: 0.85rem; font-weight: 600; letter-spacing: 1px;">
+            Sua sessão expirou por inatividade. Por favor, identifique-se novamente.
+        </div>
+    {% endif %}
+
+    <form method="post" class="auth-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn-auth">Entrar</button>
+        <div style="text-align: center; margin-top: 15px;">
+            <a href="{% url 'password_reset' %}" style="color: var(--ouro); text-decoration: none; font-size: 0.9rem;">Esqueceu sua senha?</a>
+        </div>
+    </form>
+
+    <div class="auth-footer">
+        Ainda não tem uma conta? <a href="{% url 'signup' %}">Cadastre-se</a>
+    </div>
+</div>
+
+</body>
+</html>

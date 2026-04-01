@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Acesso Bloqueado | S&G</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            background-color: #050505; 
+            color: white; 
+            font-family: 'Montserrat', sans-serif; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            height: 100vh; 
+            margin: 0; 
+        }
+        .box { 
+            background: #0a0a0a; 
+            border: 1px solid rgba(255, 76, 76, 0.3); /* Borda avermelhada sutil */
+            padding: 40px; 
+            border-radius: 8px; 
+            width: 100%; 
+            max-width: 450px; 
+            text-align: center; 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+        }
+        .icone-alerta {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            filter: grayscale(100%) brightness(80%); /* Cadeado discreto */
+        }
+        h1 { 
+            font-family: 'Cinzel', serif; 
+            color: #ff4c4c; /* Vermelho alerta elegante */
+            margin-bottom: 15px; 
+            font-size: 1.6rem; 
+            letter-spacing: 2px;
+        }
+        p { 
+            color: #888; 
+            font-size: 0.95rem; 
+            margin-bottom: 20px; 
+            line-height: 1.6; 
+        }
+        .destaque { 
+            color: white; 
+            font-weight: 600; 
+        }
+        .btn-ouro { 
+            display: inline-block; 
+            width: 100%; 
+            padding: 12px; 
+            background: transparent; 
+            border: 1px solid #D4AF37; 
+            color: #D4AF37; 
+            font-weight: bold; 
+            text-transform: uppercase; 
+            text-decoration: none; 
+            border-radius: 4px; 
+            transition: 0.3s; 
+            box-sizing: border-box; 
+            letter-spacing: 1px;
+            margin-top: 10px;
+        }
+        .btn-ouro:hover { 
+            background: #D4AF37; 
+            color: black; 
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <div class="icone-alerta">🔒</div>
+        <h1>Acesso Retido</h1>
+        <p>Detectamos múltiplas tentativas de login malsucedidas.</p>
+        <p>Para garantir a segurança dos seus dados na <span class="destaque">Silver & Gold</span>, novas tentativas foram temporariamente suspensas.</p>
+        <p style="font-size: 0.8rem; color: #555;">Por favor, aguarde o período de resfriamento (1 hora) ou redefina sua senha.</p>
+        
+        <a href="{% url 'vitrine' %}" class="btn-ouro">Voltar à Boutique</a>
+    </div>
+</body>
+</html>

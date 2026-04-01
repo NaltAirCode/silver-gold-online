@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Coleção Completa | Silver&Gold</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root { --ouro: #D4AF37; --preto: #050505; --cinza: #111; }
+        body { margin: 0; font-family: 'Montserrat', sans-serif; background-color: var(--preto); color: white; }
+        
+        /* Header simplificado para a loja */
+        nav { padding: 20px 5%; border-bottom: 1px solid #222; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-family: 'Cinzel', serif; color: var(--ouro); text-decoration: none; font-size: 1.5rem; letter-spacing: 4px; }
+        
+        .container { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
+        h1 { font-family: 'Cinzel', serif; text-align: center; color: var(--ouro); margin-bottom: 50px; letter-spacing: 3px; }
+
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; }
+        .card { background: var(--cinza); border: 1px solid #222; transition: 0.3s; }
+        .card:hover { border-color: var(--ouro); }
+        .card img { width: 100%; height: 300px; object-fit: cover; }
+        .card-body { padding: 20px; text-align: center; }
+        .card-body h3 { font-family: 'Cinzel', serif; font-size: 1rem; margin-bottom: 10px; }
+        .preco { color: var(--ouro); font-size: 1.4rem; font-weight: 600; margin-bottom: 15px; }
+        .btn-comprar { background: var(--ouro); color: black; border: none; padding: 10px; width: 100%; cursor: pointer; font-weight: 600; text-transform: uppercase; font-size: 0.7rem; }
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="{% url 'vitrine' %}" class="logo">S&G</a>
+    <a href="{% url 'vitrine' %}" style="color: #666; text-decoration: none; font-size: 0.8rem;">← Voltar para Início</a>
+</nav>
+
+<div class="container">
+    <h1>Coleção Silver & Gold</h1>
+    
+    <div class="grid">
+        {% for produto in produtos %}
+        <div class="card">
+            <img src="{{ produto.imagem.url }}" alt="{{ produto.nome }}">
+            <div class="card-body">
+                <h3>{{ produto.nome }}</h3>
+                <div class="preco">R$ {{ produto.preco_venda_atual }}</div>
+                <button class="btn-comprar">Comprar via Pix</button>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+    .cookie-banner {
+        position: fixed;
+        bottom: 20px;
+        left: 20px;
+        max-width: 400px;
+        background-color: var(--cinza-escuro, #111);
+        border: 1px solid rgba(212, 175, 55, 0.3);
+        padding: 25px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+        z-index: 9999;
+        font-family: 'Montserrat', sans-serif;
+        display: none; /* Escondido por padrão até o JS verificar */
+        border-radius: 4px;
+    }
+    .cookie-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+    }
+    .cookie-header h3 { color: var(--ouro, #D4AF37); margin: 0; font-size: 1.1rem; font-family: 'Cinzel', serif; }
+    .cookie-header span { color: #555; font-size: 0.8rem; letter-spacing: 1px; }
+    .cookie-text { font-size: 0.8rem; color: #ccc; margin-bottom: 15px; line-height: 1.5; }
+    .cookie-box {
+        border: 1px solid #333;
+        padding: 15px;
+        font-size: 0.75rem;
+        color: #999;
+        font-style: italic;
+        margin-bottom: 15px;
+        background: #0a0a0a;
+    }
+    .cookie-links { margin-bottom: 20px; font-size: 0.75rem; font-weight: 600; }
+    .cookie-links a { color: var(--ouro, #D4AF37); text-decoration: none; transition: 0.3s; }
+    .cookie-links a:hover { text-decoration: underline; }
+    .cookie-actions { display: flex; justify-content: space-between; align-items: center; }
+    .btn-options { color: #fff; text-decoration: underline; font-size: 0.75rem; cursor: pointer; background: none; border: none; }
+    .btn-group { display: flex; gap: 10px; }
+    .btn-reject { background: transparent; border: 1px solid #555; color: #ccc; padding: 8px 15px; cursor: pointer; font-weight: 600; font-size: 0.75rem; transition: 0.3s; }
+    .btn-reject:hover { border-color: #fff; color: #fff; }
+    .btn-accept { background: var(--ouro, #D4AF37); border: 1px solid var(--ouro, #D4AF37); color: black; padding: 8px 20px; cursor: pointer; font-weight: 600; font-size: 0.75rem; transition: 0.3s; }
+    .btn-accept:hover { background: #b8962d; }
+</style>
+
+<div class="cookie-banner" id="lgpd-banner">
+    <div class="cookie-header">
+        <h3>Controle sua privacidade</h3>
+        <span>S&G</span>
+    </div>
+    <div class="cookie-text">
+        Nosso site usa cookies para melhorar a navegação.
+    </div>
+    <div class="cookie-box">
+        Usamos cookies para compartilhar dados de análise, publicidade, dados de usuários e personalização de anúncios com o Google.
+    </div>
+    <div class="cookie-links">
+        <a href="#">Política de Privacidade</a> - <a href="#">Política de Cookies</a>
+    </div>
+    <div class="cookie-actions">
+        <button class="btn-options">Minhas opções</button>
+        <div class="btn-group">
+            <button class="btn-reject" onclick="fecharBannerCookies()">Rejeitar</button>
+            <button class="btn-accept" onclick="fecharBannerCookies()">Aceitar</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Verifica se o usuário já aceitou/rejeitou antes
+    document.addEventListener("DOMContentLoaded", function() {
+        if (!localStorage.getItem("cookieConsentimento")) {
+            document.getElementById("lgpd-banner").style.display = "block";
+        }
+    });
+
+    // Função para fechar o banner e salvar a escolha do usuário
+    function fecharBannerCookies() {
+        localStorage.setItem("cookieConsentimento", "sim");
+        document.getElementById("lgpd-banner").style.display = "none";
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Acesso Restrito | Silver&Gold</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        body { background-color: #050505; color: white; font-family: 'Montserrat', sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; text-align: center; }
+        .container { border: 1px solid rgba(212, 175, 55, 0.3); padding: 50px; border-radius: 8px; max-width: 500px; }
+        h1 { font-family: 'Cinzel', serif; color: #D4AF37; letter-spacing: 5px; margin-bottom: 20px; }
+        p { color: #888; line-height: 1.6; }
+        .timer { font-weight: bold; color: #D4AF37; font-size: 1.2rem; margin-top: 20px; display: block; }
+        .btn-voltar { display: inline-block; margin-top: 30px; padding: 10px 25px; border: 1px solid #D4AF37; color: #D4AF37; text-decoration: none; text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem; transition: 0.3s; }
+        .btn-voltar:hover { background: #D4AF37; color: black; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>ACESSO RESTRITO</h1>
+    <p>Desculpe, esta área é exclusiva para a equipe de gestão da Silver & Gold Online.</p>
+    <p>Você será redirecionado para a nossa vitrine em <span id="contador" class="timer">5</span> segundos.</p>
+    
+    <a href="{% url 'vitrine' %}" class="btn-voltar">Voltar Agora</a>
+</div>
+
+<script>
+    let tempo = 5;
+    const display = document.getElementById('contador');
+    
+    const intervalo = setInterval(function() {
+        tempo--;
+        display.innerText = tempo;
+        if (tempo <= 0) {
+            clearInterval(intervalo);
+            window.location.href = "{% url 'vitrine' %}";
+        }
+    }, 1000);
+</script>
+
+</body>
+</html>

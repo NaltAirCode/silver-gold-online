@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ titulo }} | Silver&Gold</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@200;300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root { --ouro: #D4AF37; --preto: #050505; --cinza-escuro: #111; }
+        body { margin: 0; font-family: 'Montserrat', sans-serif; background-color: var(--preto); color: white; }
+        
+        nav { padding: 25px 5%; border-bottom: 1px solid rgba(212, 175, 55, 0.2); display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-family: 'Cinzel', serif; font-size: 1.8rem; color: var(--ouro); text-decoration: none; letter-spacing: 5px; font-weight: 700; }
+        .voltar { color: #888; text-decoration: none; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; }
+        .voltar:hover { color: var(--ouro); }
+
+        /* Banner Dinâmico */
+        .hero-categoria { 
+    height: 45vh; display: flex; align-items: center; justify-content: center;
+    border-bottom: 1px solid #222;
+}
+        .hero-categoria h1 { font-family: 'Cinzel', serif; font-size: 3rem; color: var(--ouro); letter-spacing: 4px; text-transform: uppercase; }
+
+        .vitrine-section { padding: 60px 5%; max-width: 1300px; margin: 0 auto; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 40px; }
+        
+        .product-card { background: var(--cinza-escuro); border: 1px solid #1a1a1a; transition: 0.5s; overflow: hidden; }
+        .product-card:hover { border-color: var(--ouro); }
+        .product-card img { width: 100%; height: 320px; object-fit: cover; opacity: 0.8; transition: 0.5s; }
+        .product-card:hover img { opacity: 1; transform: scale(1.05); }
+        .product-info { padding: 20px; text-align: center; }
+        .product-info h3 { font-family: 'Cinzel', serif; font-size: 1rem; margin: 0 0 10px 0; color: #fff; }
+        .price { color: var(--ouro); font-weight: 600; font-size: 1.3rem; margin-bottom: 15px; }
+        .btn-pix { background: transparent; border: 1px solid var(--ouro); color: var(--ouro); padding: 10px; width: 100%; cursor: pointer; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 1px; transition: 0.3s; }
+        .btn-pix:hover { background: var(--ouro); color: black; }
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="{% url 'vitrine' %}" class="logo">S&G</a>
+    <a href="{% url 'vitrine' %}" class="voltar">← Voltar à Boutique</a>
+</nav>
+
+<header class="hero-categoria" style="background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.7)), 
+    url('{% if categoria.banner_imagem %}{{ categoria.banner_imagem.url }}{% else %}https://images.unsplash.com/photo-1515562141207-7a88fb7ce338{% endif %}'); 
+    background-size: cover; background-position: center;">
+    
+    <h1>{{ categoria.nome }}</h1>
+</header>
+
+<section class="vitrine-section">
+    <div class="grid">
+        {% for produto in produtos %}
+        <div class="product-card">
+            {% if produto.imagem %}
+                <img src="{{ produto.imagem.url }}" alt="{{ produto.nome }}">
+            {% else %}
+                <div style="height: 320px; background: #222; display: flex; align-items: center; justify-content: center; color: #444;">Sem imagem</div>
+            {% endif %}
+            
+            <div class="product-info">
+                <h3>{{ produto.nome }}</h3>
+
+                {% if user.is_authenticated %}
+                    <div class="price">
+                        {% if produto.is_oportunidade and produto.preco_promocional %}
+                            <span style="text-decoration: line-through; color: #666; font-size: 0.8rem; margin-right: 5px;">R$ {{ produto.preco_venda_atual }}</span>
+                            <span style="color: var(--ouro); font-size: 1.3rem;">R$ {{ produto.preco_promocional }}</span>
+                            <span style="background: var(--ouro); color: var(--preto); font-size: 0.7rem; padding: 2px 6px; border-radius: 2px; margin-left: 8px; vertical-align: middle; font-weight: bold;">-{{ produto.percentual_desconto }}%</span>
+                        {% else %}
+                            R$ {{ produto.preco_venda_atual }}
+                        {% endif %}
+                    </div>
+                    <a href="{% url 'negociar' produto.id %}" target="_blank" class="btn-pix" style="display: block; text-decoration: none; text-align: center; box-sizing: border-box;">
+                        Negociar Agora
+                    </a>
+                {% else %}
+                    <div class="price" style="font-size: 0.75rem; color: #777; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 25px;">
+                        Preço sob consulta
+                    </div>
+                    <a href="https://wa.me/5511971020414?text=Olá! Estava navegando na coleção e gostaria de saber o valor da peça: {{ produto.nome }}" target="_blank" class="btn-pix" style="background: transparent; border-color: #555; color: #ccc; display: block; text-decoration: none; text-align: center; box-sizing: border-box;">
+                        Consultar Valor
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+        {% empty %}
+        <div style="grid-column: 1/-1; text-align: center; padding: 50px 0;">
+            <h3 style="color: #555; font-family: 'Cinzel', serif;">Nenhuma peça disponível nesta categoria no momento.</h3>
+        </div>
+        {% endfor %} </div>
+</section>
+
+</body>
+</html>
