@@ -1,6 +1,20 @@
 from django.contrib import admin
 import requests
-from .models import Produto, Categoria
+from .models import Cliente, Endereco, Produto, Categoria
+
+# Isso permite que você veja os endereços dentro da página do Cliente no Admin
+class EnderecoInline(admin.StackedInline):
+    model = Endereco
+    extra = 1 # Mostra um campo vazio para novo endereço por padrão
+
+@admin.register(Cliente)
+class ClienteAdmin(admin.admin.ModelAdmin):
+    list_display = ('usuario', 'whatsapp', 'cpf')
+    inlines = [EnderecoInline]
+
+admin.site.register(Endereco)
+admin.site.register(Categoria)
+admin.site.register(Produto)
 
 # --- NOVO: REGISTRO DA CATEGORIA NO ADMIN ---
 @admin.register(Categoria)

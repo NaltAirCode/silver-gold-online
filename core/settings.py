@@ -160,7 +160,8 @@ AXES_FAILURE_LIMIT = 5            # Bloqueia após 5 tentativas erradas
 AXES_COOLOFF_TIME = 1             # O bloqueio dura 1 hora
 AXES_LOCKOUT_TEMPLATE = 'vendas/erro_bloqueio.html' # Tela personalizada
 AXES_RESET_ON_SUCCESS = True      # Se acertar a senha, as falhas anteriores são zeradas
-AXES_ONLY_USER_FAILURES = True    # Bloqueia APENAS o usuário, liberando o IP para os outros
+AXES_LOCKOUT_PARAMETERS = ["username"]    # Bloqueia APENAS o usuário, liberando o IP para os outros
+AXES_W006_CONF_VAR_OR_IP_ADDRESS_CHECK_ENABLED = False
 
 
 
