@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Meus Dados | Silver&Gold</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@200;300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root { --ouro: #D4AF37; --preto: #050505; --cinza-escuro: #111; }
+        body { margin: 0; font-family: 'Montserrat', sans-serif; background-color: var(--preto); color: white; }
+        
+        nav { padding: 25px 5%; border-bottom: 1px solid rgba(212, 175, 55, 0.2); display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-family: 'Cinzel', serif; font-size: 1.8rem; color: var(--ouro); text-decoration: none; letter-spacing: 5px; font-weight: 700; }
+        .voltar { color: #888; text-decoration: none; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; }
+
+        .container { max-width: 900px; margin: 40px auto; padding: 0 20px; }
+        .section-box { background: #0a0a0a; border: 1px solid rgba(212, 175, 55, 0.15); padding: 30px; border-radius: 8px; margin-bottom: 30px; }
+        h2 { font-family: 'Cinzel', serif; color: var(--ouro); letter-spacing: 2px; margin-top: 0; font-size: 1.4rem; border-bottom: 1px solid #222; padding-bottom: 15px; }
+        
+        /* Grid de Dados */
+        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; margin-top: 20px; }
+        .info-item label { display: block; color: var(--ouro); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
+        .info-item p { margin: 0; font-size: 1rem; color: #eee; font-weight: 300; }
+
+        /* Estilo dos Endereços */
+        .address-card { background: #111; border: 1px solid #222; padding: 20px; border-radius: 4px; margin-top: 15px; position: relative; }
+        .btn-add { display: inline-block; margin-top: 15px; color: var(--ouro); text-decoration: none; font-size: 0.8rem; text-transform: uppercase; border: 1px solid var(--ouro); padding: 10px 20px; transition: 0.3s; }
+        .btn-add:hover { background: var(--ouro); color: black; }
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="{% url 'vitrine' %}" class="logo">S&G</a>
+    <a href="{% url 'vitrine' %}" class="voltar">← Voltar</a>
+</nav>
+
+<div class="container">
+    <div class="section-box">
+        <h2><i class="fa-solid fa-user-gear" style="margin-right: 10px; font-size: 1.1rem;"></i> Meus Dados Pessoais</h2>
+        <div class="info-grid">
+            <div class="info-item">
+                <label>Nome Completo</label>
+                <p>{{ user.get_full_name|default:user.first_name }}</p>
+            </div>
+            <div class="info-item">
+                <label>E-mail de Acesso</label>
+                <p>{{ user.email }}</p>
+            </div>
+            <div class="info-item">
+                <label>WhatsApp</label>
+                <p>{{ cliente.whatsapp }}</p>
+            </div>
+            <div class="info-item">
+                <label>Status da Conta</label>
+                <p style="color: #4BB543;"><i class="fa-solid fa-circle-check"></i> Verificada</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="section-box">
+        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #222; padding-bottom: 15px;">
+            <h2 style="border: none; margin: 0;"><i class="fa-solid fa-location-dot" style="margin-right: 10px; font-size: 1.1rem;"></i> Endereços de Entrega</h2>
+            <a href="{% url 'adicionar_endereco' %}" class="btn-add" style="margin: 0; padding: 5px 15px; font-size: 0.7rem;">+ Novo</a>
+        </div>
+
+        {% for endereco in enderecos %}
+            <div class="address-card">
+                <p><strong>{{ endereco.logradouro }}, {{ endereco.numero }}</strong></p>
+                <p>{{ endereco.bairro }} - {{ endereco.cidade }}/{{ endereco.estado }}</p>
+                <p>CEP: {{ endereco.cep }}</p>
+                {% if endereco.padrao %}
+                    <span style="color: var(--ouro); font-size: 0.6rem; text-transform: uppercase; letter-spacing: 1px;">[ Endereço Principal ]</span>
+                {% endif %}
+            </div>
+        {% empty %}
+            <p style="color: #555; margin-top: 20px;">Nenhum endereço cadastrado.</p>
+        {% endfor %}
+    </div>
+</div>
+
+</body>
+</html>

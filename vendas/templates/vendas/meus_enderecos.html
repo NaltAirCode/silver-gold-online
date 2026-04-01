@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Meus Endereços | Silver&Gold</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@200;300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root { --ouro: #D4AF37; --preto: #050505; --cinza-escuro: #111; }
+        body { margin: 0; font-family: 'Montserrat', sans-serif; background-color: var(--preto); color: white; }
+        
+        /* Navegação padrão S&G */
+        nav { padding: 25px 5%; border-bottom: 1px solid rgba(212, 175, 55, 0.2); display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-family: 'Cinzel', serif; font-size: 1.8rem; color: var(--ouro); text-decoration: none; letter-spacing: 5px; font-weight: 700; }
+        .voltar { color: #888; text-decoration: none; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; }
+        .voltar:hover { color: var(--ouro); }
+
+        /* Container Principal */
+        .dashboard-container { max-width: 800px; margin: 40px auto; padding: 20px; }
+        .dashboard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 1px solid #333; padding-bottom: 15px; }
+        .dashboard-header h2 { font-family: 'Cinzel', serif; color: var(--ouro); letter-spacing: 2px; margin: 0; }
+        
+        /* Botão Novo Endereço */
+        .btn-novo { padding: 10px 20px; background: transparent; border: 1px solid var(--ouro); color: var(--ouro); text-decoration: none; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; }
+        .btn-novo:hover { background: var(--ouro); color: black; }
+
+        /* Cards de Endereço */
+        .grid-enderecos { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        @media (max-width: 600px) { .grid-enderecos { grid-template-columns: 1fr; } }
+
+        .card-endereco { background: #0a0a0a; border: 1px solid rgba(212, 175, 55, 0.3); padding: 20px; border-radius: 4px; position: relative; }
+        .card-endereco h4 { color: white; margin: 0 0 10px 0; font-size: 1rem; }
+        .card-endereco p { color: #888; font-size: 0.85rem; margin: 5px 0; line-height: 1.4; }
+        
+        .tag-padrao { position: absolute; top: 15px; right: 15px; background: var(--ouro); color: black; font-size: 0.6rem; padding: 3px 8px; text-transform: uppercase; font-weight: bold; border-radius: 2px; }
+
+        .empty-state { text-align: center; padding: 40px; color: #666; font-size: 0.9rem; grid-column: 1 / -1; }
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="{% url 'vitrine' %}" class="logo">S&G</a>
+    <a href="{% url 'vitrine' %}" class="voltar">← Voltar à Boutique</a>
+</nav>
+
+<div class="dashboard-container">
+    <div class="dashboard-header">
+        <h2>Meus Endereços</h2>
+        <a href="{% url 'adicionar_endereco' %}" class="btn-novo">+ Novo Endereço</a>
+    </div>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div style="background: rgba(212, 175, 55, 0.1); border-left: 3px solid var(--ouro); padding: 10px; margin-bottom: 20px; color: var(--ouro); font-size: 0.85rem;">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="grid-enderecos">
+        {% for endereco in enderecos %}
+            <div class="card-endereco">
+                {% if endereco.padrao %}
+                    <span class="tag-padrao">Principal</span>
+                {% endif %}
+                <h4>{{ endereco.logradouro }}, {{ endereco.numero }}</h4>
+                {% if endereco.complemento %}
+                    <p>Complemento: {{ endereco.complemento }}</p>
+                {% endif %}
+                <p>{{ endereco.bairro }}</p>
+                <p>{{ endereco.cidade }} - {{ endereco.estado }}</p>
+                <p>CEP: {{ endereco.cep }}</p>
+            </div>
+        {% empty %}
+            <div class="empty-state">
+                <p>Você ainda não cadastrou nenhum endereço de entrega.</p>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+</body>
+</html>

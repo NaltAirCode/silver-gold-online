@@ -15,6 +15,19 @@ from django.contrib.auth.decorators import login_required # <-- NOVO: Segurança
 from .models import Produto, Categoria, Endereco # <-- ADICIONADO: Endereco
 from .forms import ClienteCadastroForm, EnderecoForm # <-- ADICIONADO: EnderecoForm
 
+
+@login_required
+def meus_dados(request):
+    # Buscamos o perfil do cliente vinculado ao usuário logado
+    cliente = request.user.perfil_cliente
+    # Buscamos todos os endereços desse cliente
+    enderecos = Endereco.objects.filter(cliente=cliente)
+    
+    return render(request, 'vendas/meus_dados.html', {
+        'cliente': cliente,
+        'enderecos': enderecos
+    })
+
 # ==========================================
 # ÁREA DE SEGURANÇA E ADMINISTRAÇÃO
 # ==========================================

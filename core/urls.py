@@ -25,7 +25,7 @@ from vendas.views import (
     vitrine, lista_produtos, categoria_produtos, signup, 
     negociar_whatsapp, sair_do_sistema, erro_403_view, 
     erro_404_view, pagina_secreta, ativar_conta, logout_inatividade,
-    meus_enderecos, adicionar_endereco # <-- NOVAS VIEWS ADICIONADAS
+    meus_enderecos, adicionar_endereco, meus_dados# <-- NOVAS VIEWS ADICIONADAS
 )
 
 urlpatterns = [
@@ -60,6 +60,8 @@ urlpatterns = [
     # --- GESTÃO DE ENDEREÇOS (NOVO) ---
     path('meus-enderecos/', meus_enderecos, name='meus_enderecos'),
     path('adicionar-endereco/', adicionar_endereco, name='adicionar_endereco'),
+
+    path('meus-dados/', meus_dados, name='meus_dados'),
 ]
 
 # Configuração para as imagens (Mídia)

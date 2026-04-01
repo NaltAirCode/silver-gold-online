@@ -23,77 +23,6 @@
         .logo-box span { font-family: 'Cinzel', serif; font-size: 1.8rem; color: var(--ouro); letter-spacing: 6px; font-weight: 700; display: block; }
         .logo-box small { color: #fff; letter-spacing: 4px; font-size: 0.6rem; text-transform: uppercase; opacity: 0.5; }
 
-        /* ========================================== */
-        /* MENU FLUTUANTE DO USUÁRIO (DROPDOWN)       */
-        /* ========================================== */
-        .user-menu {
-            position: relative;
-            display: inline-block;
-            cursor: pointer;
-            padding: 10px 0;
-            margin-left: 10px;
-        }
-
-        .greeting {
-            color: var(--ouro);
-            font-weight: 600;
-            text-transform: none; /* Mantém o nome natural */
-            font-size: 0.8rem;
-            letter-spacing: 1px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .greeting::after {
-            content: '▼';
-            font-size: 0.55rem;
-            transition: transform 0.3s;
-        }
-
-        .user-menu:hover .greeting::after {
-            transform: rotate(180deg);
-        }
-
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            right: 0;
-            top: 100%;
-            background-color: #0a0a0a;
-            min-width: 220px;
-            box-shadow: 0px 15px 30px rgba(0,0,0,0.9);
-            z-index: 1000;
-            border: 1px solid rgba(212, 175, 55, 0.2);
-            border-radius: 4px;
-            overflow: hidden;
-        }
-
-        .dropdown-content a {
-            color: #ccc;
-            padding: 15px 20px;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 0.7rem;
-            transition: 0.3s;
-            border-bottom: 1px solid #111;
-            opacity: 1; /* Sobrescreve a opacidade do nav-links */
-        }
-
-        .dropdown-content a i {
-            font-size: 0.9rem;
-            color: var(--ouro);
-            width: 15px;
-            text-align: center;
-        }
-
-        .dropdown-content a:last-child { border-bottom: none; }
-        .dropdown-content a:hover { background-color: #151515; color: var(--ouro); padding-left: 25px; }
-        .user-menu:hover .dropdown-content { display: block; }
-        /* ========================================== */
-
         /* --- HERO SECTION --- */
         .hero { display: flex; align-items: center; justify-content: center; height: 70vh; padding: 0 8%; background: #080808; border-bottom: 1px solid #111; }
         .hero-content { flex: 1; padding-right: 50px; }
@@ -152,23 +81,14 @@
             <a href="#">Coleções</a>
             
             {% if user.is_authenticated %}
-                <div class="user-menu">
-                    <span class="greeting">Olá, {{ user.first_name|default:user.username }}</span>
-                    
-                    <div class="dropdown-content">
-                        <a href="{% url 'meus_enderecos' %}"><i class="fa-solid fa-location-dot"></i> Meus Endereços</a>
-
-                        <a href="{% url 'meus_dados' %}"><i class="fa-solid fa-address-card"></i> Meus Dados</a>
-                        
-                        {% if user.is_staff %}
-                            <a href="/admin"><i class="fa-solid fa-user-shield"></i> Painel de Gestão</a>
-                        {% endif %}
-                        
-                        <a href="{% url 'logout' %}" style="color: #ff4d4d;">
-                            <i class="fa-solid fa-right-from-bracket" style="color: #ff4d4d;"></i> Sair da Conta
-                        </a>
-                    </div>
-                </div>
+                <span style="color: var(--ouro); text-transform: none; font-size: 0.8rem; margin-right: 10px;">
+                    Olá, {{ user.username }}
+                </span>
+                <a href="{% url 'logout' %}" title="Sair do sistema"><i class="fa-solid fa-right-from-bracket"></i></a>
+                
+                {% if user.is_staff %}
+                    <a href="/admin" title="Painel Admin"><i class="fa-solid fa-user-gear"></i></a>
+                {% endif %}
                 
             {% else %}
                 <a href="{% url 'login' %}"><i class="fa-regular fa-user"></i> Login</a>
@@ -189,11 +109,42 @@
 
 <style>
     /* Forçando a formatação de luxo para as categorias dinâmicas */
-    .category-grid { display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; margin: 40px 0; }
-    .category-btn { display: flex; flex-direction: column; align-items: center; gap: 12px; text-decoration: none !important; color: #D4AF37 !important; transition: all 0.3s ease; padding: 15px; }
-    .category-btn i { font-size: 2.8rem; color: #D4AF37 !important; }
-    .category-btn span { font-family: 'Cinzel', serif; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; color: #D4AF37 !important; }
-    .category-btn:hover { transform: translateY(-8px); filter: brightness(1.3); }
+    .category-grid {
+        display: flex;
+        justify-content: center;
+        gap: 40px;
+        flex-wrap: wrap;
+        margin: 40px 0;
+    }
+    
+    .category-btn {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+        text-decoration: none !important;
+        color: #D4AF37 !important; /* Cor Ouro */
+        transition: all 0.3s ease;
+        padding: 15px;
+    }
+
+    .category-btn i {
+        font-size: 2.8rem;
+        color: #D4AF37 !important;
+    }
+
+    .category-btn span {
+        font-family: 'Cinzel', serif;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        color: #D4AF37 !important;
+    }
+
+    .category-btn:hover {
+        transform: translateY(-8px);
+        filter: brightness(1.3);
+    }
 </style>
 
 <section class="categories-section">
@@ -209,28 +160,125 @@
     </div>
 </section>
 
+<!--div class="categories">
+    <a href="{% url 'categoria' 'aneis' %}" style="text-decoration:none;" class="cat-card">
+        <i class="fa-solid fa-ring cat-icon"></i>
+        <h3>Anéis</h3>
+    </a>
+    <a href="{% url 'categoria' 'brincos' %}" style="text-decoration:none;" class="cat-card">
+        <i class="fa-solid fa-gem cat-icon"></i>
+        <h3>Brincos</h3>
+    </a>
+    <a href="{% url 'categoria' 'correntes' %}" style="text-decoration:none;" class="cat-card">
+        <i class="fa-solid fa-link cat-icon"></i>
+        <h3>Correntes</h3>
+    </a>
+    <a href="{% url 'categoria' 'pulseiras' %}" style="text-decoration:none;" class="cat-card">
+        <i class="fa-solid fa-hands-holding cat-icon"></i>
+        <h3>Pulseiras</h3>
+    </a>
+    <a href="{% url 'categoria' 'pingentes' %}" style="text-decoration:none;" class="cat-card">
+        <i class="fa-solid fa-leaf cat-icon"></i>
+        <h3>Pingentes</h3>
+    </a>
+</div-->
+
 <style>
     /* Modo Carrossel VIP */
-    .carousel-oportunidades { display: flex; overflow-x: auto; gap: 30px; padding: 10px 0 30px 0; scroll-snap-type: x mandatory; scrollbar-width: none; }
-    .carousel-oportunidades::-webkit-scrollbar { display: none; }
-    .card-oportunidade { flex: 0 0 auto; width: 280px; scroll-snap-align: start; border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 6px; background: var(--cinza-escuro, #111); transition: all 0.4s ease; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.6); overflow: hidden; }
-    .card-oportunidade:hover { border-color: var(--ouro, #D4AF37); box-shadow: 0 10px 25px rgba(212, 175, 55, 0.2); transform: translateY(-8px); }
+    .carousel-oportunidades {
+        display: flex;
+        overflow-x: auto;
+        gap: 30px;
+        padding: 10px 0 30px 0;
+        scroll-snap-type: x mandatory;
+        scrollbar-width: none; /* Esconde barra no Firefox */
+    }
+    .carousel-oportunidades::-webkit-scrollbar {
+        display: none; /* Esconde barra no Chrome/Safari */
+    }
     
+    /* Borda Elegante e Efeito Flutuante */
+    .card-oportunidade {
+        flex: 0 0 auto;
+        width: 280px;
+        scroll-snap-align: start;
+        border: 1px solid rgba(212, 175, 55, 0.3); /* Borda dourada sutil */
+        border-radius: 6px;
+        background: var(--cinza-escuro, #111);
+        transition: all 0.4s ease;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.6);
+        overflow: hidden;
+    }
+    .card-oportunidade:hover {
+        border-color: var(--ouro, #D4AF37);
+        box-shadow: 0 10px 25px rgba(212, 175, 55, 0.2); /* Brilho dourado no hover */
+        transform: translateY(-8px); /* Levanta a carta */
+    }
+</style>
+
+<style>
     /* Container do Carrossel com botões */
-    .carousel-container { position: relative; display: flex; align-items: center; group: hover; }
-    .carousel-oportunidades { display: flex; overflow-x: auto; gap: 25px; padding: 20px 5px 40px 5px; scroll-snap-type: x mandatory; scrollbar-width: none; scroll-behavior: smooth; width: 100%; }
-    .nav-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0, 0, 0, 0.7); border: 1px solid var(--ouro); color: var(--ouro); width: 45px; height: 45px; border-radius: 50%; cursor: pointer; z-index: 10; display: flex; align-items: center; justify-content: center; transition: 0.3s; font-size: 1.2rem; }
+    .carousel-container {
+        position: relative;
+        display: flex;
+        align-items: center;
+        group: hover;
+    }
+
+    .carousel-oportunidades {
+        display: flex;
+        overflow-x: auto;
+        gap: 25px;
+        padding: 20px 5px 40px 5px;
+        scroll-snap-type: x mandatory;
+        scrollbar-width: none;
+        scroll-behavior: smooth; /* Faz a rolagem ser suave ao clicar */
+        width: 100%;
+    }
+
+    .carousel-oportunidades::-webkit-scrollbar { display: none; }
+
+    /* Estilo das Setas */
+    .nav-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(0, 0, 0, 0.7);
+        border: 1px solid var(--ouro);
+        color: var(--ouro);
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        cursor: pointer;
+        z-index: 10;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: 0.3s;
+        font-size: 1.2rem;
+    }
+
     .nav-btn:hover { background: var(--ouro); color: black; }
     .prev-btn { left: -20px; }
     .next-btn { right: -20px; }
-    .card-oportunidade { flex: 0 0 300px; scroll-snap-align: center; border: 1px solid rgba(212, 175, 55, 0.2); background: #111; transition: 0.4s; }
+
+    /* Ajuste do Card para o Carrossel */
+    .card-oportunidade {
+        flex: 0 0 300px; /* Largura fixa para forçar o carrossel */
+        scroll-snap-align: center;
+        border: 1px solid rgba(212, 175, 55, 0.2);
+        background: #111;
+        transition: 0.4s;
+    }
 </style>
 
 <section class="vitrine-section" id="vitrine">
     <h2 class="section-title">Oportunidades</h2>
     
     <div class="carousel-container">
-        <button class="nav-btn prev-btn" onclick="document.getElementById('slider').scrollBy({left: -325, behavior: 'smooth'})">&#10094;</button>
+        <button class="nav-btn prev-btn" onclick="document.getElementById('slider').scrollBy({left: -325, behavior: 'smooth'})">
+            &#10094;
+        </button>
         
         <div class="carousel-oportunidades" id="slider">
             {% for produto in produtos %}
@@ -267,9 +315,28 @@
             </div> {% endfor %}
         </div>
 
-        <button class="nav-btn next-btn" onclick="document.getElementById('slider').scrollBy({left: 325, behavior: 'smooth'})">&#10095;</button>
+        <button class="nav-btn next-btn" onclick="document.getElementById('slider').scrollBy({left: 325, behavior: 'smooth'})">
+            &#10095;
+        </button>
     </div>
 </section>
+
+<script>
+    function sideScroll(element, direction, speed, distance, step) {
+        scrollAmount = 0;
+        var slideVar = setInterval(function() {
+            if (direction == 'left') {
+                element.scrollLeft -= step;
+            } else {
+                element.scrollLeft += step;
+            }
+            scrollAmount += step;
+            if (scrollAmount >= distance) {
+                window.clearInterval(slideVar);
+            }
+        }, speed);
+    }
+</script>
 
 <footer>
     <div class="logo-box">
@@ -295,12 +362,38 @@
 </footer>
 
 <style>
-    .cookie-banner { position: fixed; bottom: 20px; left: 20px; max-width: 400px; background-color: var(--cinza-escuro, #111); border: 1px solid rgba(212, 175, 55, 0.3); padding: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.8); z-index: 9999; font-family: 'Montserrat', sans-serif; display: none; border-radius: 4px; }
-    .cookie-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+    .cookie-banner {
+        position: fixed;
+        bottom: 20px;
+        left: 20px;
+        max-width: 400px;
+        background-color: var(--cinza-escuro, #111);
+        border: 1px solid rgba(212, 175, 55, 0.3);
+        padding: 25px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+        z-index: 9999;
+        font-family: 'Montserrat', sans-serif;
+        display: none; /* Escondido por padrão até o JS verificar */
+        border-radius: 4px;
+    }
+    .cookie-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+    }
     .cookie-header h3 { color: var(--ouro, #D4AF37); margin: 0; font-size: 1.1rem; font-family: 'Cinzel', serif; }
     .cookie-header span { color: #555; font-size: 0.8rem; letter-spacing: 1px; }
     .cookie-text { font-size: 0.8rem; color: #ccc; margin-bottom: 15px; line-height: 1.5; }
-    .cookie-box { border: 1px solid #333; padding: 15px; font-size: 0.75rem; color: #999; font-style: italic; margin-bottom: 15px; background: #0a0a0a; }
+    .cookie-box {
+        border: 1px solid #333;
+        padding: 15px;
+        font-size: 0.75rem;
+        color: #999;
+        font-style: italic;
+        margin-bottom: 15px;
+        background: #0a0a0a;
+    }
     .cookie-links { margin-bottom: 20px; font-size: 0.75rem; font-weight: 600; }
     .cookie-links a { color: var(--ouro, #D4AF37); text-decoration: none; transition: 0.3s; }
     .cookie-links a:hover { text-decoration: underline; }
@@ -337,12 +430,14 @@
 </div>
 
 <script>
+    // Verifica se o usuário já aceitou/rejeitou antes
     document.addEventListener("DOMContentLoaded", function() {
         if (!localStorage.getItem("cookieConsentimento")) {
             document.getElementById("lgpd-banner").style.display = "block";
         }
     });
 
+    // Função para fechar o banner e salvar a escolha do usuário
     function fecharBannerCookies() {
         localStorage.setItem("cookieConsentimento", "sim");
         document.getElementById("lgpd-banner").style.display = "none";
@@ -350,9 +445,14 @@
 </script>
 
 <script>
-    const tempoSessao = 600 * 1000;
+    // Pegamos o tempo que você definiu no settings (1800 segundos)
+    // Para teste, se você mudou para 10, ele vai respeitar os 10.
+    const tempoSessao = 600 * 1000; // Converte para milissegundos
+
     setTimeout(function() {
+        // Verifica se o usuário está logado (opcional, mas recomendado)
         {% if user.is_authenticated %}
+            // Redireciona para o logout que já limpa tudo e manda para a home com aviso
             window.location.href = "{% url 'login' %}?msg=expirado";
         {% endif %}
     }, tempoSessao);

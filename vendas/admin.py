@@ -1,29 +1,33 @@
-from django.contrib import admin
 import requests
-from .models import Cliente, Endereco, Produto, Categoria
+from django.contrib import admin
+from .models import Cliente, Endereco, Categoria, Produto
 
-# Isso permite que você veja os endereços dentro da página do Cliente no Admin
+# ==========================================
+# 1. CLIENTE E ENDEREÇO
+# ==========================================
 class EnderecoInline(admin.StackedInline):
     model = Endereco
-    extra = 1 # Mostra um campo vazio para novo endereço por padrão
+    extra = 1
 
 @admin.register(Cliente)
-class ClienteAdmin(admin.admin.ModelAdmin):
+class ClienteAdmin(admin.ModelAdmin):
     list_display = ('usuario', 'whatsapp', 'cpf')
     inlines = [EnderecoInline]
 
+# Registro do Endereço sozinho (para listar todos juntos, se precisar)
 admin.site.register(Endereco)
-admin.site.register(Categoria)
-admin.site.register(Produto)
 
-# --- NOVO: REGISTRO DA CATEGORIA NO ADMIN ---
+# ==========================================
+# 2. CATEGORIA (Com URL Automática)
+# ==========================================
 @admin.register(Categoria)
 class CategoriaAdmin(admin.ModelAdmin):
     list_display = ('nome', 'slug')
-    prepopulated_fields = {'slug': ('nome',)} # Isso faz a URL ser preenchida sozinha quando você digita o nome
-# --------------------------------------------
+    prepopulated_fields = {'slug': ('nome',)} 
 
-# 1. Esta é a função que faz a matemática puxando da internet
+# ==========================================
+# 3. PRODUTOS E PRECIFICAÇÃO DINÂMICA
+# ==========================================
 @admin.action(description="Atualizar preços pela cotação de hoje")
 def atualizar_precos_acao(modeladmin, request, queryset):
     try:
@@ -46,11 +50,8 @@ def atualizar_precos_acao(modeladmin, request, queryset):
     
     modeladmin.message_user(request, "Sucesso! Preços da Silver&Gold atualizados.")
 
-# 2. Configuração visual do painel
 @admin.register(Produto)
 class ProdutoAdmin(admin.ModelAdmin):
     list_display = ('nome', 'tipo_metal', 'peso_gramas', 'preco_venda_atual')
     readonly_fields = ('preco_venda_atual',)
-    
-    # É ESTA LINHA AQUI QUE FAZ O BOTÃO APARECER:
     actions = [atualizar_precos_acao]
