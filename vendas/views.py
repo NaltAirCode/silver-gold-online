@@ -25,6 +25,17 @@ def vitrine(request):
     return render(request, 'vendas/vitrine.html', {'campanhas': campanhas})
 
 
+# ====== TESTE DO BANNER ========================================================
+def vitrine(request):
+    campanhas = BannerCampanha.objects.filter(is_active=True).order_by('ordem')
+    
+    # Adicione esta linha para depurar:
+    print("BANNERS ENCONTRADOS:", campanhas.count()) 
+    
+    # ... seus outros códigos ...
+    return render(request, 'vendas/vitrine.html', {'campanhas': campanhas})
+
+
 # ==========================================
 # DADOS PERFIL DO CLIENTE E SEUS ENDEREÇOS
 # ==========================================
