@@ -219,14 +219,22 @@
         color: white;
         padding: 0 20px;
     }
-    .carousel-content h2 {
+    .carousel-content h1, .carousel-content h2 {
+        font-size: clamp(2.5rem, 8vw, 4rem) !important;
+        color: var(--ouro, #d4af37) !important;
+        text-transform: uppercase;
+        letter-spacing: 5px;
+        margin-bottom: 15px;
+        text-shadow: 2px 2px 10px rgba(0,0,0,0.7);
+    }
+    {% comment %} .carousel-content h2 {
         font-size: clamp(2.5rem, 8vw, 4rem);
         color: var(--ouro, #d4af37);
         text-transform: uppercase;
         letter-spacing: 5px;
         margin-bottom: 15px;
         text-shadow: 2px 2px 10px rgba(0,0,0,0.7);
-    }
+    } {% endcomment %}
     .carousel-content p {
         font-size: clamp(1rem, 4vw, 1.5rem);
         font-weight: 300;

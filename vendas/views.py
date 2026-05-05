@@ -19,21 +19,21 @@ from .forms import ClienteCadastroForm, EnderecoForm # <-- ADICIONADO: EnderecoF
 # ==========================================
 # BANNERS PARA O BANCO DE DADOS vs VITRINE
 # ==========================================
-def vitrine(request):
-    campanhas = BannerCampanha.objects.filter(is_active=True).order_by('ordem')
-    # ... seus outros códigos (produtos, categorias) ...
-    return render(request, 'vendas/vitrine.html', {'campanhas': campanhas})
+# def vitrine(request):
+#     campanhas = BannerCampanha.objects.filter(is_active=True).order_by('ordem')
+#     # ... seus outros códigos (produtos, categorias) ...
+#     return render(request, 'vendas/vitrine.html', {'campanhas': campanhas})
 
 
-# ====== TESTE DO BANNER ========================================================
-def vitrine(request):
-    campanhas = BannerCampanha.objects.filter(is_active=True).order_by('ordem')
+# # ====== TESTE DO BANNER ========================================================
+# def vitrine(request):
+#     campanhas = BannerCampanha.objects.filter(is_active=True).order_by('ordem')
     
-    # Adicione esta linha para depurar:
-    print("BANNERS ENCONTRADOS:", campanhas.count()) 
+#     # Adicione esta linha para depurar:
+#     print("BANNERS ENCONTRADOS:", campanhas.count()) 
     
-    # ... seus outros códigos ...
-    return render(request, 'vendas/vitrine.html', {'campanhas': campanhas})
+#     # ... seus outros códigos ...
+#     return render(request, 'vendas/vitrine.html', {'campanhas': campanhas})
 
 
 # ==========================================
@@ -69,10 +69,28 @@ def pagina_secreta(request):
 # ==========================================
 # 1. LANDING PAGE (Home)
 # ==========================================
+# def vitrine(request):
+#     produtos_oportunidade = Produto.objects.filter(is_oportunidade=True)[:10]
+#     categorias = Categoria.objects.all() 
+#     return render(request, 'vendas/vitrine.html', {
+#         'produtos': produtos_oportunidade,
+#         'categorias': categorias
+#     })
+
+# ==========================================
+# 1. LANDING PAGE (Home)
+# ==========================================
 def vitrine(request):
+    # 1. Puxa os banners que configuramos no Admin
+    campanhas = BannerCampanha.objects.filter(is_active=True).order_by('ordem')
+    
+    # 2. Mantém a sua regra intacta para produtos e categorias
     produtos_oportunidade = Produto.objects.filter(is_oportunidade=True)[:10]
     categorias = Categoria.objects.all() 
+    
+    # 3. Envia tudo (campanhas, produtos e categorias) para o vitrine.html
     return render(request, 'vendas/vitrine.html', {
+        'campanhas': campanhas,
         'produtos': produtos_oportunidade,
         'categorias': categorias
     })
