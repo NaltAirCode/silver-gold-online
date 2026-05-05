@@ -18,10 +18,16 @@ from .forms import ClienteCadastroForm, EnderecoForm # <-- ADICIONADO: EnderecoF
 
 @login_required
 def meus_dados(request):
-    # Buscamos o perfil do cliente vinculado ao usuário logado
-    cliente = request.user.perfil_cliente
-    # Buscamos todos os endereços desse cliente
-    enderecos = Endereco.objects.filter(cliente=cliente)
+    """Exibe os dados da conta, perfil do cliente e seus endereços"""
+    
+    # Proteção: Verifica se o usuário tem a ficha de cliente
+    if hasattr(request.user, 'perfil_cliente'):
+        cliente = request.user.perfil_cliente
+        enderecos = Endereco.objects.filter(cliente=cliente)
+    else:
+        # Se não tiver, envia vazio para a página não quebrar
+        cliente = None
+        enderecos = []
     
     return render(request, 'vendas/meus_dados.html', {
         'cliente': cliente,
@@ -77,14 +83,30 @@ def negociar_whatsapp(request, produto_id):
 # ==========================================
 @login_required
 def meus_enderecos(request):
-    """Exibe a lista de endereços do cliente logado"""
-    # Buscamos os endereços vinculados ao Perfil do Cliente
-    enderecos = Endereco.objects.filter(cliente=request.user.perfil_cliente)
-    return render(request, 'vendas/meus_enderecos.html', {'enderecos': enderecos})
+    """Exibe a lista de endereços do cliente logado e os dados da conta"""
+    # Proteção: Verifica se o usuário tem a ficha de cliente
+    if hasattr(request.user, 'perfil_cliente'):
+        cliente = request.user.perfil_cliente
+        enderecos = Endereco.objects.filter(cliente=cliente)
+    else:
+        cliente = None
+        enderecos = []
+        
+    return render(request, 'vendas/meus_enderecos.html', {
+        'cliente': cliente, 
+        'enderecos': enderecos
+    })
 
 @login_required
 def adicionar_endereco(request):
     """Permite cadastrar um novo endereço com busca por ViaCEP no front-end"""
+    
+    # Proteção: Se for um admin sem ficha de cliente, bloqueia o cadastro de endereço
+    if not hasattr(request.user, 'perfil_cliente'):
+        from django.contrib import messages
+        messages.error(request, "Conta de administrador: Você precisa criar uma ficha de Cliente no painel Admin antes de adicionar um endereço.")
+        return redirect('meus_enderecos')
+
     if request.method == 'POST':
         form = EnderecoForm(request.POST)
         if form.is_valid():
@@ -92,7 +114,9 @@ def adicionar_endereco(request):
             # Vincula o endereço ao perfil do cliente logado
             endereco.cliente = request.user.perfil_cliente
             endereco.save()
-            messages.success(request, "Endereço cadastrado com sucesso!")
+            
+            from django.contrib import messages
+            messages.success(request, "Endereço cadastrado com sucesso na Gold & Silver!")
             return redirect('meus_enderecos')
     else:
         form = EnderecoForm()

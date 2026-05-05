@@ -111,7 +111,7 @@
         .cat-card h3 { font-family: 'Cinzel', serif; font-size: 0.8rem; margin: 0; letter-spacing: 1px; }
 
         /* --- VITRINE DE PRODUTOS (DINÂMICA) --- */
-        .vitrine-section { padding: 60px 5%; max-width: 1300px; margin: 0 auto; }
+        .vitrine-section { padding: 10px 5%; max-width: 1300px; margin: 0 auto; }
         .section-title { text-align: center; font-family: 'Cinzel', serif; font-size: 1.8rem; margin-bottom: 50px; letter-spacing: 4px; color: var(--ouro); }
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 40px; }
         
@@ -161,7 +161,7 @@
                         <a href="{% url 'meus_dados' %}"><i class="fa-solid fa-address-card"></i> Meus Dados</a>
                         
                         {% if user.is_staff %}
-                            <a href="/admin"><i class="fa-solid fa-user-shield"></i> Painel de Gestão</a>
+                            <a href="{% url 'admin:index' %}"><i class="fa-solid fa-user-shield"></i> Painel de Gestão</a>
                         {% endif %}
                         
                         <a href="{% url 'logout' %}" style="color: #ff4d4d;">
@@ -178,14 +178,202 @@
     </div>
 </header>
 
-<section class="hero">
+<!-- ========================================== -->
+<!-- HERO SLIDESHOW COMPLETO - GOLD & SILVER    -->
+<!-- ========================================== -->
+<style>
+    .vitrine-carousel {
+        position: relative;
+        width: 100%;
+        height: 75vh; 
+        min-height: 450px;
+        overflow: hidden;
+    }
+    .carousel-slide {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        transition: opacity 1.5s ease-in-out;
+        background-size: cover;
+        background-position: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
+    .carousel-slide.active {
+        opacity: 1;
+        z-index: 1;
+    }
+    .carousel-overlay {
+        position: absolute;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(0, 0, 0, 0.45);
+    }
+    .carousel-content {
+        position: relative;
+        z-index: 2;
+        color: white;
+        padding: 0 20px;
+    }
+    .carousel-content h2 {
+        font-size: clamp(2.5rem, 8vw, 4rem);
+        color: var(--ouro, #d4af37);
+        text-transform: uppercase;
+        letter-spacing: 5px;
+        margin-bottom: 15px;
+        text-shadow: 2px 2px 10px rgba(0,0,0,0.7);
+    }
+    .carousel-content p {
+        font-size: clamp(1rem, 4vw, 1.5rem);
+        font-weight: 300;
+        letter-spacing: 2px;
+        margin-bottom: 40px;
+        text-shadow: 1px 1px 5px rgba(0,0,0,0.9);
+    }
+    .btn-hero {
+        display: inline-block;
+        padding: 15px 45px;
+        background-color: transparent;
+        border: 2px solid var(--ouro, #d4af37);
+        color: var(--ouro, #d4af37);
+        text-decoration: none;
+        font-size: 1rem;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        transition: all 0.3s ease;
+        font-weight: bold;
+    }
+    .btn-hero:hover {
+        background-color: var(--ouro, #d4af37);
+        color: #000;
+    }
+    /* Navegação do Carrossel (Dots) */
+    .carousel-nav {
+        position: absolute;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 10;
+        display: flex;
+        gap: 15px;
+    }
+    .nav-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.3);
+        border: 1px solid var(--ouro, #d4af37);
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    .nav-dot.active {
+        background: var(--ouro, #d4af37);
+        transform: scale(1.3);
+        box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+    }
+</style>
+
+<div class="vitrine-carousel" id="carrosselPrincipal">
+    
+    <!-- Slide 1: A Marca -->
+    <div class="carousel-slide active" style="background-image: url('https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?q=80&w=2000');">
+        <div class="carousel-overlay"></div>
+        <div class="carousel-content">
+            <h2>Gold & Silver</h2>
+            <p>A Essência da Alta Joalheria</p>
+            <a href="#vitrine" class="btn-hero">Ver Coleção</a>
+        </div>
+    </div>
+
+    <!-- Slide 2: Dia das Mães (Com o link que você enviou agora) -->
+    <div class="carousel-slide" style="background-image: url('https://images.unsplash.com/photo-1603839834958-ae04ebbb3ec1?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');">
+        <div class="carousel-overlay"></div>
+        <div class="carousel-content">
+            <h2>Dia das Mães</h2>
+            <p>O presente perfeito para eternizar o amor.</p>
+            <a href="#vitrine" class="btn-hero">Ver Coleção</a>
+        </div>
+    </div>
+
+    <!-- Slide 3: Especial Noivas -->
+    <div class="carousel-slide" style="background-image: url('https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?q=80&w=1920&auto=format&fit=crop');">
+        <div class="carousel-overlay"></div>
+        <div class="carousel-content">
+            <h2>Especial Noivas</h2>
+            <p>O brilho que acompanha o seu "Sim".</p>
+            <a href="#vitrine" class="btn-hero">Ver Coleção</a>
+        </div>
+    </div>
+
+    <!-- Slide 4: Relógios -->
+    <div class="carousel-slide" style="background-image: url('https://images.unsplash.com/photo-1523170335258-f5ed11844a49?q=80&w=1920&auto=format&fit=crop');">
+        <div class="carousel-overlay"></div>
+        <div class="carousel-content">
+            <h2>Tempo de Celebrar</h2>
+            <p>Relógios exclusivos para momentos inesquecíveis.</p>
+            <a href="#vitrine" class="btn-hero">Ver Coleção</a>
+        </div>
+    </div>
+    <!-- Indicadores de Navegação -->
+    <div class="carousel-nav">
+        <div class="nav-dot active" onclick="manualSlide(0)"></div>
+        <div class="nav-dot" onclick="manualSlide(1)"></div>
+        <div class="nav-dot" onclick="manualSlide(2)"></div>
+        <div class="nav-dot" onclick="manualSlide(3)"></div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        let slides = document.querySelectorAll('.carousel-slide');
+        let dots = document.querySelectorAll('.nav-dot');
+        let currentSlide = 0;
+        let slideInterval;
+
+        function updateDisplay(index) {
+            // Remove classes ativas de todos
+            slides.forEach(s => s.classList.remove('active'));
+            dots.forEach(d => d.classList.remove('active'));
+            
+            // Adiciona classe ativa no slide e dot atual
+            slides[index].classList.add('active');
+            dots[index].classList.add('active');
+            currentSlide = index;
+        }
+
+        function nextSlide() {
+            let next = (currentSlide + 1) % slides.length;
+            updateDisplay(next);
+        }
+
+        // Função para quando o cliente clica no botão
+        window.manualSlide = function(index) {
+            clearInterval(slideInterval); // Para o tempo automático temporariamente
+            updateDisplay(index);
+            startAutoSlide(); // Reinicia o contador para não pular rápido logo após o clique
+        }
+
+        function startAutoSlide() {
+            slideInterval = setInterval(nextSlide, 8000); // Mantive os 8 segundos
+        }
+
+        startAutoSlide();
+    });
+</script>
+<!-- ========================================== -->
+
+<!--section class="hero">
     <div class="hero-content">
         <h1>GOLD & SILVER</h1>
         <p>A Essência da Alta Joalheria</p>
         <a href="#vitrine" class="btn-shop">Ver Coleção</a>
     </div>
     <div class="hero-img"></div>
-</section>
+</section-->
 
 <style>
     /* Forçando a formatação de luxo para as categorias dinâmicas */
@@ -226,6 +414,26 @@
     .card-oportunidade { flex: 0 0 300px; scroll-snap-align: center; border: 1px solid rgba(212, 175, 55, 0.2); background: #111; transition: 0.4s; }
 </style>
 
+<!-- ========================================== -->
+    <!-- BLOCO SOBRE A LOJA E ATENDIMENTO VIP       -->
+    <!-- ========================================== -->
+    <section class="about-section" style="max-width: 800px; margin: 60px auto 20px auto; text-align: center; padding: 0 20px;">
+        <h2 style="color: var(--ouro, #d4af37); font-size: 2rem; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 3px; font-weight: 300;">A Experiência Gold & Silver</h2>
+        
+        <p style="color: #ccc; font-size: 1.1rem; line-height: 1.8; margin-bottom: 30px; font-weight: 300;">
+            A <strong>Gold & Silver Online</strong> traz até você o ápice da alta joalheria. Nossa curadoria seleciona peças exclusivas, desenvolvidas nos metais mais nobres e adornadas com gemas de altíssimo padrão. Um compromisso inabalável com a elegância e a sofisticação.
+        </p>
+
+        <div style="background: rgba(212, 175, 55, 0.05); border: 1px solid rgba(212, 175, 55, 0.2); padding: 30px; border-radius: 4px;">
+            <i class="fa-brands fa-whatsapp" style="color: var(--ouro, #d4af37); font-size: 2rem; margin-bottom: 15px; display: block;"></i>
+            <h3 style="color: #fff; font-size: 1.2rem; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px;">Atendimento Consultivo</h3>
+            <p style="color: #aaa; font-size: 1rem; line-height: 1.6; margin: 0;">
+                Para garantir uma experiência de compra personalizada e manter a exclusividade do nosso catálogo, trabalhamos com o modelo de <em>Valores sob Consulta</em>.<br><br>
+                Navegue por nossa <strong>seleção exclusiva</strong> e, ao se encantar por uma joia, clique em <strong>Consultar Valor</strong>. Você será direcionado ao nosso WhatsApp VIP, onde um de nossos consultores estará à disposição para apresentar os detalhes, valores e conduzir sua negociação com total privacidade.
+            </p>
+        </div>
+    </section>
+    <!-- ========================================== -->
 <section class="vitrine-section" id="vitrine">
     <h2 class="section-title">Oportunidades</h2>
     
@@ -242,27 +450,14 @@
                 <div class="product-info">
                     <h3>{{ produto.nome }}</h3>
 
-                    {% if user.is_authenticated %}
-                        <div class="price">
-                            {% if produto.preco_promocional %}
-                                <span style="text-decoration: line-through; color: #666; font-size: 0.8rem;">R$ {{ produto.preco_venda_atual }}</span><br>
-                                <span style="color: var(--ouro); font-size: 1.3rem;">R$ {{ produto.preco_promocional }}</span>
-                            {% else %}
-                                R$ {{ produto.preco_venda_atual }}
-                            {% endif %}
-                        </div>
-                        <a href="{% url 'negociar' produto.id %}" target="_blank" class="btn-pix" style="display: block; text-decoration: none; text-align: center; box-sizing: border-box;">
-                            Negociar Agora
-                        </a>
-                        
-                    {% else %}
-                        <div class="price" style="font-size: 0.75rem; color: #777; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 25px;">
-                            Preço sob consulta
-                        </div>
-                        <a href="https://wa.me/5511971020414?text=Olá! Gostaria de saber o valor da peça: {{ produto.nome }}" target="_blank" class="btn-pix" style="background: transparent; border-color: #555; color: #ccc; display: block; text-decoration: none; text-align: center; box-sizing: border-box;">
-                            Consultar Valor
-                        </a>
-                    {% endif %}
+                    <div class="price" style="font-size: 0.75rem; color: #777; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 25px;">
+                        Preço sob consulta
+                    </div>
+                    
+                    <!-- Botão WhatsApp Inteligente -->
+                    <a href="https://wa.me/5511971020414?text=Olá{% if user.is_authenticated %}, me chamo {{ user.first_name|default:user.username }} e sou cliente da boutique{% endif %}! Gostaria de saber o valor da peça: {{ produto.nome }}" target="_blank" class="btn-pix" style="display: block; text-decoration: none; text-align: center; box-sizing: border-box;">
+                        <i class="fa-brands fa-whatsapp" style="font-size: 1.1rem; margin-right: 5px; vertical-align: middle;"></i> Consultar Valor
+                    </a>
                 </div>
             </div> {% endfor %}
         </div>

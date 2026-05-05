@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>{{ titulo }} | Gold & Silver</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@200;300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root { --ouro: #D4AF37; --preto: #050505; --cinza-escuro: #111; }
         body { margin: 0; font-family: 'Montserrat', sans-serif; background-color: var(--preto); color: white; }
@@ -58,32 +59,20 @@
                 <div style="height: 320px; background: #222; display: flex; align-items: center; justify-content: center; color: #444;">Sem imagem</div>
             {% endif %}
             
-            <div class="product-info">
-                <h3>{{ produto.nome }}</h3>
+<div class="product-info">
+    <h3>{{ produto.nome }}</h3>
 
-                {% if user.is_authenticated %}
-                    <div class="price">
-                        {% if produto.is_oportunidade and produto.preco_promocional %}
-                            <span style="text-decoration: line-through; color: #666; font-size: 0.8rem; margin-right: 5px;">R$ {{ produto.preco_venda_atual }}</span>
-                            <span style="color: var(--ouro); font-size: 1.3rem;">R$ {{ produto.preco_promocional }}</span>
-                            <span style="background: var(--ouro); color: var(--preto); font-size: 0.7rem; padding: 2px 6px; border-radius: 2px; margin-left: 8px; vertical-align: middle; font-weight: bold;">-{{ produto.percentual_desconto }}%</span>
-                        {% else %}
-                            R$ {{ produto.preco_venda_atual }}
-                        {% endif %}
-                    </div>
-                    <a href="{% url 'negociar' produto.id %}" target="_blank" class="btn-pix" style="display: block; text-decoration: none; text-align: center; box-sizing: border-box;">
-                        Negociar Agora
-                    </a>
-                {% else %}
-                    <div class="price" style="font-size: 0.75rem; color: #777; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 25px;">
-                        Preço sob consulta
-                    </div>
-                    <a href="https://wa.me/5511971020414?text=Olá! Estava navegando na coleção e gostaria de saber o valor da peça: {{ produto.nome }}" target="_blank" class="btn-pix" style="background: transparent; border-color: #555; color: #ccc; display: block; text-decoration: none; text-align: center; box-sizing: border-box;">
-                        Consultar Valor
-                    </a>
-                {% endif %}
-            </div>
-        </div>
+    <div class="price" style="font-size: 0.75rem; color: #777; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 25px;">
+        Preço sob consulta
+    </div>
+    
+    <!-- Botão WhatsApp Inteligente COM ÍCONE -->
+    <a href="https://wa.me/5511971020414?text=Olá{% if user.is_authenticated %}, me chamo {{ user.first_name|default:user.username }} e sou cliente da boutique{% endif %}! Gostaria de saber o valor da peça: {{ produto.nome }}" target="_blank" class="btn-pix" style="display: block; text-decoration: none; text-align: center; box-sizing: border-box;">
+        <i class="fa-brands fa-whatsapp" style="font-size: 1.1rem; margin-right: 8px; vertical-align: middle;"></i> Consultar Valor
+    </a>
+</div>
+</div>
+
         {% empty %}
         <div style="grid-column: 1/-1; text-align: center; padding: 50px 0;">
             <h3 style="color: #555; font-family: 'Cinzel', serif;">Nenhuma peça disponível nesta categoria no momento.</h3>
