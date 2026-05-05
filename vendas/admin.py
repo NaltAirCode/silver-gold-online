@@ -48,7 +48,7 @@ def atualizar_precos_acao(modeladmin, request, queryset):
         cotacao = cotacao_ouro_grama if produto.tipo_metal == 'OURO' else cotacao_prata_grama
         produto.atualizar_preco(cotacao)
     
-    modeladmin.message_user(request, "Sucesso! Preços da Silver&Gold atualizados.")
+    modeladmin.message_user(request, "Sucesso! Preços da Gold & Silver atualizados.")
 
 @admin.register(Produto)
 class ProdutoAdmin(admin.ModelAdmin):
