@@ -12,9 +12,22 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required # <-- NOVO: Segurança para endereços
 
 # IMPORTANTE: Importamos os modelos e forms necessários
-from .models import Produto, Categoria, Endereco # <-- ADICIONADO: Endereco
+from .models import Produto, Categoria, Endereco, BannerCampanha # <-- ADICIONADO: Endereco
 from .forms import ClienteCadastroForm, EnderecoForm # <-- ADICIONADO: EnderecoForm
 
+
+# ==========================================
+# BANNERS PARA O BANCO DE DADOS vs VITRINE
+# ==========================================
+def vitrine(request):
+    campanhas = BannerCampanha.objects.filter(is_active=True).order_by('ordem')
+    # ... seus outros códigos (produtos, categorias) ...
+    return render(request, 'vendas/vitrine.html', {'campanhas': campanhas})
+
+
+# ==========================================
+# DADOS PERFIL DO CLIENTE E SEUS ENDEREÇOS
+# ==========================================
 
 @login_required
 def meus_dados(request):

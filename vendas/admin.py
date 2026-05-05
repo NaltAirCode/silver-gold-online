@@ -1,6 +1,14 @@
 import requests
 from django.contrib import admin
-from .models import Cliente, Endereco, Categoria, Produto
+from .models import Cliente, Endereco, Categoria, Produto, BannerCampanha
+
+# ==========================================
+# BANNERS CAMPANHAS Vitrine.html
+# ==========================================
+@admin.register(BannerCampanha)
+class BannerCampanhaAdmin(admin.ModelAdmin):
+    list_display = ('titulo', 'ordem', 'is_active')
+    list_editable = ('ordem', 'is_active')
 
 # ==========================================
 # 1. CLIENTE E ENDEREÇO

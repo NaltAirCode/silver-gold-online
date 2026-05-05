@@ -278,52 +278,26 @@
 </style>
 
 <div class="vitrine-carousel" id="carrosselPrincipal">
-    
-    <!-- Slide 1: A Marca -->
-    <div class="carousel-slide active" style="background-image: url('https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?q=80&w=2000');">
+    {% for campanha in campanhas %}
+    <div class="carousel-slide {% if forloop.first %}active{% endif %}" style="background-image: url('{{ campanha.imagem_url }}');">
         <div class="carousel-overlay"></div>
         <div class="carousel-content">
-            <h2>Gold & Silver</h2>
-            <p>A Essência da Alta Joalheria</p>
-            <a href="#vitrine" class="btn-hero">Ver Coleção</a>
+            {% if forloop.first %}
+                <h1>{{ campanha.titulo }}</h1>
+            {% else %}
+                <h2>{{ campanha.titulo }}</h2>
+            {% endif %}
+            <p>{{ campanha.subtitulo }}</p>
+            <a href="{{ campanha.link_destino }}" class="btn-hero">{{ campanha.texto_botao }}</a>
         </div>
     </div>
+    {% endfor %}
 
-    <!-- Slide 2: Dia das Mães (Com o link que você enviou agora) -->
-    <div class="carousel-slide" style="background-image: url('https://images.unsplash.com/photo-1603839834958-ae04ebbb3ec1?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');">
-        <div class="carousel-overlay"></div>
-        <div class="carousel-content">
-            <h2>Dia das Mães</h2>
-            <p>O presente perfeito para eternizar o amor.</p>
-            <a href="#vitrine" class="btn-hero">Ver Coleção</a>
-        </div>
-    </div>
-
-    <!-- Slide 3: Especial Noivas -->
-    <div class="carousel-slide" style="background-image: url('https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?q=80&w=1920&auto=format&fit=crop');">
-        <div class="carousel-overlay"></div>
-        <div class="carousel-content">
-            <h2>Especial Noivas</h2>
-            <p>O brilho que acompanha o seu "Sim".</p>
-            <a href="#vitrine" class="btn-hero">Ver Coleção</a>
-        </div>
-    </div>
-
-    <!-- Slide 4: Relógios -->
-    <div class="carousel-slide" style="background-image: url('https://images.unsplash.com/photo-1523170335258-f5ed11844a49?q=80&w=1920&auto=format&fit=crop');">
-        <div class="carousel-overlay"></div>
-        <div class="carousel-content">
-            <h2>Tempo de Celebrar</h2>
-            <p>Relógios exclusivos para momentos inesquecíveis.</p>
-            <a href="#vitrine" class="btn-hero">Ver Coleção</a>
-        </div>
-    </div>
-    <!-- Indicadores de Navegação -->
+    <!-- Indicadores de Navegação Dinâmicos -->
     <div class="carousel-nav">
-        <div class="nav-dot active" onclick="manualSlide(0)"></div>
-        <div class="nav-dot" onclick="manualSlide(1)"></div>
-        <div class="nav-dot" onclick="manualSlide(2)"></div>
-        <div class="nav-dot" onclick="manualSlide(3)"></div>
+        {% for campanha in campanhas %}
+        <div class="nav-dot {% if forloop.first %}active{% endif %}" onclick="manualSlide({{ forloop.counter0 }})"></div>
+        {% endfor %}
     </div>
 </div>
 

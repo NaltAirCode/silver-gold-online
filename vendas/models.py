@@ -2,6 +2,25 @@ from django.db import models
 from django.contrib.auth.models import User # Importe isso no topo!
 
 
+# --- TABELAS BANNERS CAMPANHAS ---
+class BannerCampanha(models.Model):
+    titulo = models.CharField(max_length=100, help_text="Ex: Dia das Mães")
+    subtitulo = models.CharField(max_length=255, help_text="Ex: O presente perfeito...")
+    imagem_url = models.URLField(help_text="Link direto da imagem (Unsplash ou outro)")
+    # Se preferir upload: imagem = models.ImageField(upload_to='banners/')
+    texto_botao = models.CharField(max_length=50, default="Ver Coleção")
+    link_destino = models.CharField(max_length=255, default="#vitrine")
+    ordem = models.PositiveIntegerField(default=0, help_text="Ordem de exibição (0, 1, 2...)")
+    is_active = models.BooleanField(default=True, verbose_name="Ativo?")
+
+    class Meta:
+        ordering = ['ordem']
+        verbose_name = "Banner de Campanha"
+        verbose_name_plural = "Banners de Campanha"
+
+    def __str__(self):
+        return self.titulo
+    
 # --- NOVA TABELA: CLIENTE ---
 class Cliente(models.Model):
     # A mágica do OneToOne: Cada usuário de login tem 1 perfil de cliente
