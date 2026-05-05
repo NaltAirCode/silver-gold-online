@@ -111,7 +111,7 @@ def signup(request):
             user.save()
 
             current_site = get_current_site(request)
-            mail_subject = 'Ative sua conta na Silver & Gold'
+            mail_subject = 'Ative sua conta na Gold & Silver'
             message = render_to_string('vendas/ativacao_email.html', {
                 'user': user,
                 'domain': request.get_host(), 
